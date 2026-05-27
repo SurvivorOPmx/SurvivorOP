@@ -35,11 +35,12 @@ window.mostrarToast = (mensaje, tipo = "success") => {
 // RESULTADOS EN VIVO (FOOTBALL-DATA.ORG)
 // ==========================================
 window.cargarResultadosEnVivo = async () => {
+    // LLAVE DE API-FOOTBALL
     const apiKey = '035d212fdbad14cc398005179057f350'; 
     const url = 'https://v3.football.api-sports.io/fixtures?live=all'; 
     const list = document.getElementById('live-scores-list');
     
-    list.innerHTML = '<p style="text-align:center;">Actualizando...</p>';
+    list.innerHTML = '<p style="text-align:center;">Conectando con API-Football...</p>';
 
     try {
         const response = await fetch(url, {
@@ -51,9 +52,10 @@ window.cargarResultadosEnVivo = async () => {
         });
         const data = await response.json();
         
-        list.innerHTML = ''; // Limpiamos el contenedor
+        console.log("Datos recibidos de API-Football:", data);
         
-        // Verificamos si hay partidos en 'response'
+        list.innerHTML = ''; // Limpiamos
+
         if(data.response && data.response.length > 0) {
             data.response.forEach(m => {
                 const home = m.teams.home.name;
@@ -69,16 +71,11 @@ window.cargarResultadosEnVivo = async () => {
                 `;
             });
         } else {
-            // Si la API responde bien pero no hay partidos, mostramos la vista previa
-            list.innerHTML = `
-                <div class="live-match"><div class="live-status" style="color:var(--text-muted)">TIMED</div><div class="live-teams">LDU de Quito <b>-</b> - <b>-</b> Always Ready</div></div>
-                <div class="live-match"><div class="live-status" style="color:var(--text-muted)">TIMED</div><div class="live-teams">Lanús <b>-</b> - <b>-</b> Mirassol</div></div>
-                <p style="text-align:center; font-size:10px; color:var(--text-muted); margin-top:5px;">(Vista previa: No hay juegos en vivo hoy)</p>
-            `;
+            list.innerHTML = '<p style="text-align:center;">No hay partidos en vivo ahora mismo.</p>';
         }
     } catch(error) {
         console.error("Error:", error);
-        list.innerHTML = '<p style="color:red;">Error al procesar datos.</p>';
+        list.innerHTML = '<p style="color:red;">Error de conexión.</p>';
     }
 };
 // ==========================================
