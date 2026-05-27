@@ -35,46 +35,50 @@ window.mostrarToast = (mensaje, tipo = "success") => {
 // RESULTADOS EN VIVO (FOOTBALL-DATA.ORG)
 // ==========================================
 window.cargarResultadosEnVivo = async () => {
-    const apiKey = '2d61e6642bf24074afa9b05e8c00630f'; 
-    const url = `https://api.football-data.org/v4/matches?authToken=${apiKey}`;
-    const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+    const apiKey = '035d212fdbad14cc398005179057f350'; 
+    const url = 'https://v3.football.api-sports.io/fixtures?live=all'; 
     const list = document.getElementById('live-scores-list');
     
-    if (!list) return;
+    list.innerHTML = '<p style="text-align:center;">Actualizando...</p>';
 
     try {
-        const response = await fetch(proxyUrl);
-        const json = await response.json();
-        const data = JSON.parse(json.contents);
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'x-rapidapi-host': 'v3.football.api-sports.io',
+                'x-rapidapi-key': apiKey
+            }
+        });
+        const data = await response.json();
         
-        list.innerHTML = '';
+        list.innerHTML = ''; // Limpiamos el contenedor
         
-        // Si no hay partidos, dejamos la "Vista Previa" que ya te funciona
-        if(!data.matches || data.matches.length === 0) {
+        // Verificamos si hay partidos en 'response'
+        if(data.response && data.response.length > 0) {
+            data.response.forEach(m => {
+                const home = m.teams.home.name;
+                const away = m.teams.away.name;
+                const goalsHome = m.goals.home ?? 0;
+                const goalsAway = m.goals.away ?? 0;
+                
+                list.innerHTML += `
+                    <div class="live-match">
+                        <div class="live-status">🔴 En Vivo</div>
+                        <div class="live-teams">${home} <b>${goalsHome}</b> - <b>${goalsAway}</b> ${away}</div>
+                    </div>
+                `;
+            });
+        } else {
+            // Si la API responde bien pero no hay partidos, mostramos la vista previa
             list.innerHTML = `
                 <div class="live-match"><div class="live-status" style="color:var(--text-muted)">TIMED</div><div class="live-teams">LDU de Quito <b>-</b> - <b>-</b> Always Ready</div></div>
                 <div class="live-match"><div class="live-status" style="color:var(--text-muted)">TIMED</div><div class="live-teams">Lanús <b>-</b> - <b>-</b> Mirassol</div></div>
                 <p style="text-align:center; font-size:10px; color:var(--text-muted); margin-top:5px;">(Vista previa: No hay juegos en vivo hoy)</p>
             `;
-            return;
         }
-        
-        data.matches.forEach(m => {
-            const isLive = m.status === 'IN_PLAY' || m.status === 'PAUSED';
-            if (!isLive) return; 
-
-            const home = m.homeTeam.shortName || m.homeTeam.name;
-            const away = m.awayTeam.shortName || m.awayTeam.name;
-            
-            list.innerHTML += `
-                <div class="live-match">
-                    <div class="live-status" style="color:red">🔴 En Vivo</div>
-                    <div class="live-teams">${home} <b>${m.score.fullTime.home ?? '-'}</b> - <b>${m.score.fullTime.away ?? '-'}</b> ${away}</div>
-                </div>
-            `;
-        });
     } catch(error) {
         console.error("Error:", error);
+        list.innerHTML = '<p style="color:red;">Error al procesar datos.</p>';
     }
 };
 // ==========================================
