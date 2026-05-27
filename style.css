@@ -159,16 +159,103 @@ body { background-color: var(--bg-color); color: var(--text-color); font-family:
 .espia-item:hover { border-color: var(--accent-color); transform: translateX(5px); }
 
 /* ADMIN PANEL */
-.admin-panel { background: #111; border: 2px solid var(--accent-color); border-radius: 12px; margin: 40px auto; padding: 20px; max-width: 700px; color: white; font-size: 14px; box-shadow: 0 15px 40px rgba(0,0,0,0.9); }
-.admin-section { padding: 15px 0; border-bottom: 1px solid #333; }
-.admin-section:last-child { border-bottom: none; }
-.admin-section h3 { margin-top: 0; color: #fff; font-size: 16px; margin-bottom: 15px;}
-.form-group { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; flex-wrap: wrap;}
-input, select { padding: 10px; border-radius: 6px; outline: none; background: var(--input-bg); color: var(--text-color); border: 1px solid var(--border-color); flex-grow: 1; min-width: 120px; box-sizing: border-box; transition: 0.2s;}
-input:focus, select:focus { border-color: var(--accent-color); }
-.admin-panel input, .admin-panel select { background: #222; color: white; border-color: #444; }
-.admin-panel input:focus, .admin-panel select:focus { border-color: var(--accent-color); }
-button { cursor: pointer; padding: 10px 15px; border: none; border-radius: 6px; font-weight: bold; background: var(--accent-color); color: #111; transition: 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); white-space: nowrap; }
-button:hover { filter: brightness(1.1); transform: translateY(-2px); }
-button:active { transform: scale(0.95); }
-.btn-danger { background: var(--danger) !important; color: white !important; }
+.admin-panel { 
+    background: #111; 
+    border: 2px solid var(--accent-color); 
+    border-radius: 12px; 
+    padding: 20px; 
+    width: 90%; 
+    max-width: 700px; 
+    color: white; 
+    font-size: 14px; 
+    box-shadow: 0 15px 40px rgba(0,0,0,0.9);
+    
+    /* ESTO ES LO QUE LO CENTRA: */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1001;
+    max-height: 90vh; /* Para que no se salga de la pantalla si es muy largo */
+    overflow-y: auto; /* Agrega scroll si la pantalla es pequeña */
+}
+/* ========================================= */
+/* ICONOS SVG PERSONALIZADOS (SURVIVOR OP)   */
+/* ========================================= */
+
+/* Clase base para los iconos pequeños en menús, botones y títulos */
+.svg-icon {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin-right: 8px;
+    display: inline-block;
+    transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Animación sutil al pasar el mouse por encima de un botón con icono */
+button:hover .svg-icon,
+.menu-item:hover .svg-icon {
+    transform: scale(1.15) rotate(5deg);
+}
+
+/* Ajuste específico para el escudo gigante de "Estrategia Confirmada" */
+.svg-icon-large {
+    width: 70px;
+    height: 70px;
+    display: block;
+    margin: 0 auto;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+    animation: popIn 0.8s ease;
+}
+
+/* Para que los iconos oscuros/negros se vuelvan blancos en el Modo Oscuro */
+/* Solo aplica a los iconos que no tienen colores propios (como configuraciones, salir, etc.) */
+.dark-theme .svg-icon {
+    /* Si tus SVGs son a color, BORRA o COMENTA la siguiente línea */
+    /* filter: invert(1) brightness(2); */ 
+}
+
+/* Alineación para iconos que van al final del texto (ej. "Actualizar Marcadores 🔄") */
+button .svg-icon[style*="margin-left"] {
+    margin-right: 0 !important;
+}
+
+/* Ajuste de tamaño para los iconos dentro del podio */
+.podium-spot .svg-icon {
+    width: 35px;
+    height: 35px;
+    margin: 0;
+    margin-bottom: 5px;
+}/* ========================================= */
+/* MEJORA VISUAL PARA INPUTS Y SELECTS       */
+/* ========================================= */
+
+.admin-panel input, .admin-panel select {
+    background-color: #2a2a2a !important; 
+    color: #ffffff !important;
+    border: 1px solid #444 !important;
+    padding: 10px 15px !important;
+    border-radius: 8px !important;
+    font-size: 14px !important;
+    outline: none !important;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    appearance: none !important; 
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    cursor: pointer;
+}
+
+.admin-panel select {
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23ffffff%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 15px top 50% !important;
+    background-size: 12px auto !important;
+    padding-right: 40px !important;
+}
+
+.admin-panel select option {
+    background-color: #222;
+    color: #fff;
+    padding: 12px;
+}

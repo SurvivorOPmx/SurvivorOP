@@ -14,30 +14,30 @@
     <div id="sidebar" class="sidebar">
         <button class="close-btn" onclick="toggleMenu()">×</button>
         <h3 style="color: var(--accent-color); border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">Menú OP</h3>
-        <button class="menu-item" onclick="toggleTema()">🌓 Cambiar Tema</button>
-        <button class="menu-item" onclick="abrirModalCalendario()">📅 Calendario de Partidos</button>
-        <button class="menu-item" onclick="abrirModalReglas()">📜 Reglamento Oficial</button>
-        <button class="menu-item" onclick="accesoAdmin()">🔐 Acceso Admin</button>
+        <button class="menu-item" onclick="toggleTema()"><img src="assets/light.svg" class="svg-icon" id="theme-toggle-icon"> Cambiar Tema</button>
+        <button class="menu-item" onclick="abrirModalCalendario()"><img src="assets/calendario.svg" class="svg-icon"> Calendario de Partidos</button>
+        <button class="menu-item" onclick="abrirModalReglas()"><img src="assets/reglas.svg" class="svg-icon"> Reglamento Oficial</button>
+        <button class="menu-item" onclick="accesoAdmin()"><img src="assets/admin.svg" class="svg-icon"> Acceso Admin</button>
     </div>
     
     <div id="menu-overlay" onclick="toggleMenu()"></div>
 
     <div style="position: absolute; top: 15px; right: 15px; display: flex; gap: 10px;">
         <button id="login-btn" onclick="loginConGoogle()" style="background-color: #4285F4; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;">Entrar 👤</button>
-        <button id="config-btn" style="display:none; background-color: var(--accent-color); color: #121212; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;" onclick="abrirModalPerfil()">Perfil ⚙️</button>
-        <button id="perfil-btn" style="display:none; background-color: #333; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;" onclick="cerrarSesion()">Salir 🚪</button>
+        <button id="config-btn" style="display:none; background-color: var(--accent-color); color: #121212; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;" onclick="abrirModalPerfil()"><img src="assets/settings.svg" class="svg-icon"> Perfil</button>
+        <button id="perfil-btn" style="display:none; background-color: #333; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;" onclick="cerrarSesion()"><img src="assets/salir.svg" class="svg-icon"> Salir</button>
     </div>
 
     <img src="logo.png" alt="Survivor Mundial 2026" class="logo" ondblclick="accesoAdmin()" onerror="this.style.display='none'; document.getElementById('fallback-title').style.display='block';">
     <h1 id="fallback-title" style="display:none; text-align: center; color: var(--accent-color);" ondblclick="accesoAdmin()">🏆 Survivor Mundial</h1>
     
     <div class="status-banner" id="global-status-banner">
-        Cargando estado del torneo... ⏳
+        <img src="assets/jornada.svg" class="svg-icon"> Cargando estado del torneo...
     </div>
 
     <div id="user-panel" class="focus-panel" style="display: none;">
         <div id="user-panel-header">
-            <h2 style="color: var(--accent-color); margin-top: 0; font-size: 20px;">🎯 Elige tu Pick</h2>
+            <h2 style="color: var(--accent-color); margin-top: 0; font-size: 20px;"><img src="assets/elige.svg" class="svg-icon"> Elige tu Pick</h2>
             <p id="user-panel-msg" style="color: var(--text-muted); font-size: 13px; margin-bottom: 15px;">Selecciona tu equipo para la jornada actual.</p>
         </div>
         
@@ -48,39 +48,44 @@
         </div>
 
         <div id="interfaz-espera" style="display: none; animation: fadeIn 0.5s ease; text-align: center; padding: 20px 0;">
-            <div style="font-size: 40px; margin-bottom: 10px; animation: popIn 0.8s ease;">🛡️</div>
+            <div style="margin-bottom: 10px; animation: popIn 0.8s ease;"><img src="assets/estrategia.svg" class="svg-icon-large"></div>
             <h3 style="color: var(--accent-color); margin: 0;">¡Estrategia Confirmada!</h3>
             <p style="color: var(--text-muted); font-size: 14px; margin-top: 5px;">Tu pick está registrado. Espera a que el administrador cierre la jornada.</p>
         </div>
     </div>
 
     <div class="live-scores-container modal-popup-smooth" id="live-scores-container">
-        <h3 style="color: var(--accent-color); margin-top:0; text-align: center; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">🔴 Partidos de Hoy (En Vivo)</h3>
+        <h3 style="color: var(--accent-color); margin-top:0; text-align: center; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;"><img src="assets/envivo.svg" class="svg-icon"> Partidos de Hoy (En Vivo)</h3>
         <div id="live-scores-list" class="live-scores-list">
             <p style="text-align: center; color: var(--text-muted);">Cargando marcadores...</p>
         </div>
         <div style="text-align: center; margin-top: 10px;">
-            <button class="btn-interactivo" onclick="cargarResultadosEnVivo()" style="background: #333; color: white; padding: 5px 10px; font-size: 12px;">Actualizar Marcadores 🔄</button>
-        </div>
+<button class="btn-interactivo" onclick="cargarResultadosEnVivo()" style="background: #333; color: white; padding: 6px 12px; font-size: 12px; display: inline-flex; align-items: center; justify-content: center;">
+    Actualizar Marcadores <img src="assets/refresh.svg" style="width: 16px; height: 16px; margin-left: 6px; display: block;">
+</button>        </div>
     </div>
 
     <div class="calendario-container modal-popup-smooth">
-        <h3 style="color: var(--accent-color); margin-top:0; text-align: center;">📅 Fases del Torneo</h3>
+        <h3 style="color: var(--accent-color); margin-top:0; text-align: center;"><img src="assets/partidos.svg" class="svg-icon"> Fases del Torneo</h3>
         <div id="lista-calendario" class="lista-calendario"></div>
     </div>
 
     <div class="hall-of-fame-container modal-popup-smooth" id="hall-of-fame-container" style="display: none;">
-        <h3 style="color: gold; margin-top:0; text-align: center; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">🏆 Salón de la Fama (Top 3)</h3>
+        <h3 style="color: gold; margin-top:0; text-align: center; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;"><img src="assets/medallas.svg" class="svg-icon"> Salón de la Fama (Top 3)</h3>
         <div class="podium" id="podium-content"></div>
     </div>
 
     <div class="tabla-container modal-popup-smooth" style="display: none;" id="tabla-general-container">
-        <h3 style="color: var(--accent-color); margin-top:0; text-align: center; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">📊 Tabla General y Logros</h3>
+        <h3 style="color: var(--accent-color); margin-top:0; text-align: center; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;"><img src="assets/stats.svg" class="svg-icon"> Tabla General y Logros</h3>
         <div class="table-responsive">
             <table class="tabla-posiciones" id="tabla-posiciones"></table>
         </div>
         <div style="margin-top: 15px; font-size: 12px; color: var(--text-muted); text-align: center; background: var(--input-bg); padding: 10px; border-radius: 8px;">
-            <b>Medallas:</b> 🎯 Francotirador (3+ Victorias) | 🧱 La Muralla (0 Goles en Contra) | 🛡️ Intocable (3 Vidas Intactas) | 🧊 Pecho Frío (2+ Derrotas)
+            <b>Medallas:</b> 
+<img src="assets/francotirador.svg" class="svg-icon" style="width:14px; margin:0 2px;"> Francotirador (3+ Victorias) | 
+<img src="assets/muralla.svg" class="svg-icon" style="width:14px; margin:0 2px;"> La Muralla (0 Goles en Contra) | 
+<img src="assets/intocable.svg" class="svg-icon" style="width:14px; margin:0 2px;"> Intocable (3 Vidas Intactas) | 
+<img src="assets/pechofrio.svg" class="svg-icon" style="width:14px; margin:0 2px;"> Pecho Frío (2+ Derrotas)
         </div>
     </div>
 
@@ -88,7 +93,7 @@
     <div id="dashboard" class="dashboard"></div>
 
     <div class="chat-container modal-popup-smooth" id="chat-general-container" style="display: none;">
-        <h3 style="color: var(--accent-color); margin-top:0; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">💬 Chat del Survivor</h3>
+        <h3 style="color: var(--accent-color); margin-top:0; margin-bottom: 15px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;"><img src="assets/chat.svg" class="svg-icon"> Chat del Survivor</h3>
         <div class="chat-messages" id="chat-messages"></div>
         <div class="chat-input-area">
             <input type="text" id="chat-input" placeholder="Deja tu mensaje aquí..." onkeypress="manejarEnterChat(event)">
@@ -109,10 +114,10 @@
     </div>
 
     <div id="modal-reglas" class="modal-bouncy" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:var(--card-bg); padding:30px; border-radius:12px; z-index:1000; border:1px solid var(--accent-color); width: 90%; max-width: 500px; max-height: 80vh; overflow-y: auto;">
-        <h2 style="color:var(--accent-color); text-align:center; margin-top: 0; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">📜 Reglamento Oficial OP</h2>
+        <h2 style="color:var(--accent-color); text-align:center; margin-top: 0; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;"><img src="assets/reglas.svg" class="svg-icon"> Reglamento Oficial OP</h2>
         <div style="color: var(--text-color); font-size: 14px; line-height: 1.6;">
             <p><strong>1. Fase de Grupos (J1 a J3):</strong><br>
-            Elige un equipo diferente cada jornada. Si tu equipo GANA, conservas tu vida. Si tu equipo EMPATA o PIERDE, pierdes 1 VIDA (❤️). ¡Prohibido repetir equipos!</p>
+            Elige un equipo diferente cada jornada. Si tu equipo GANA, conservas tu vida. Si tu equipo EMPATA o PIERDE, pierdes 1 VIDA. ¡Prohibido repetir equipos!</p>
             <p><strong>2. Fase Eliminatoria (J4 a J8):</strong><br>
             ¡Borrón y cuenta nueva! Tienes a los 48 países disponibles de nuevo.</p>
             <p><strong>3. El Sacrificio (Fase Eliminatoria 🔥):</strong><br>
@@ -126,21 +131,21 @@
     </div>
 
     <div id="modal-calendario" class="modal-bouncy" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:var(--card-bg); padding:30px; border-radius:12px; z-index:1000; border:1px solid var(--accent-color); width: 90%; max-width: 700px; max-height: 85vh; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-        <h2 style="color:var(--accent-color); text-align:center; margin-top: 0; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">📅 Calendario Completo</h2>
+        <h2 style="color:var(--accent-color); text-align:center; margin-top: 0; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;"><img src="assets/calendario.svg" class="svg-icon"> Calendario Completo</h2>
         <div id="calendario-completo-contenido" style="margin-top: 15px;"></div>
-        <button class="btn-interactivo" style="width:100%; margin-top:20px; background:#555; color: white; font-weight:bold; padding: 10px; border-radius: 6px; border: none; cursor: pointer;" onclick="cerrarModalCalendario()">Cerrar ❌</button>
+        <button class="btn-interactivo" style="width:100%; margin-top:20px; background:#555; color: white; font-weight:bold; padding: 10px; border-radius: 6px; border: none; cursor: pointer;" onclick="cerrarModalCalendario()">Cerrar <img src="assets/salir.svg" class="svg-icon" style="margin-right:0; margin-left:5px; width:12px;"></button>
     </div>
 
     <div id="modal-espia" class="modal-bouncy" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:var(--card-bg); padding:30px; border-radius:12px; z-index:1000; border:1px solid var(--accent-color); width: 90%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
         <h2 id="espia-nombre" style="color:var(--accent-color); text-align:center; margin-top: 0; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">Picks de Jugador</h2>
         <div id="espia-contenido" style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px; max-height: 300px; overflow-y: auto;"></div>
-        <button class="btn-interactivo" style="width:100%; margin-top:20px; background:#555; color: white; font-weight:bold; padding: 10px; border-radius: 6px; border: none; cursor: pointer;" onclick="cerrarModalEspia()">Cerrar ❌</button>
+        <button class="btn-interactivo" style="width:100%; margin-top:20px; background:#555; color: white; font-weight:bold; padding: 10px; border-radius: 6px; border: none; cursor: pointer;" onclick="cerrarModalEspia()">Cerrar <img src="assets/salir.svg" class="svg-icon" style="margin-right:0; margin-left:5px; width:12px;"></button>
     </div>
 
     <div id="admin-panel" class="admin-panel modal-bouncy" style="display: none;">
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 15px;">
-            <h2 style="margin: 0;">⚙️ Panel Admin</h2>
-            <button class="btn-interactivo" style="background: #333; color: white; padding: 5px 10px;" onclick="document.getElementById('admin-panel').style.display='none'">Cerrar ❌</button>
+            <h2 style="margin: 0;"><img src="assets/admin.svg" class="svg-icon"> Panel Admin</h2>
+            <button class="btn-interactivo" style="background: #333; color: white; padding: 5px 10px;" onclick="document.getElementById('admin-panel').style.display='none'">Cerrar <img src="assets/salir.svg" class="svg-icon" style="margin-right:0; margin-left:5px; width:12px;"></button>
         </div>
         
         <div class="admin-section" style="background: #1a1a1a; padding: 15px; border-radius: 8px; border-left: 4px solid var(--accent-color);">

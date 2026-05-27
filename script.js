@@ -32,10 +32,9 @@ window.mostrarToast = (mensaje, tipo = "success") => {
 };
 
 // ==========================================
-// RESULTADOS EN VIVO (FOOTBALL-DATA.ORG)
+// RESULTADOS EN VIVO (API-FOOTBALL)
 // ==========================================
 window.cargarResultadosEnVivo = async () => {
-    // LLAVE DE API-FOOTBALL
     const apiKey = '035d212fdbad14cc398005179057f350'; 
     const url = 'https://v3.football.api-sports.io/fixtures?live=all'; 
     const list = document.getElementById('live-scores-list');
@@ -65,7 +64,7 @@ window.cargarResultadosEnVivo = async () => {
                 
                 list.innerHTML += `
                     <div class="live-match">
-                        <div class="live-status">🔴 En Vivo</div>
+                        <div class="live-status"><img src="assets/live.svg" class="svg-icon" style="width:14px; margin-right:4px;"> En Vivo</div>
                         <div class="live-teams">${home} <b>${goalsHome}</b> - <b>${goalsAway}</b> ${away}</div>
                     </div>
                 `;
@@ -78,6 +77,7 @@ window.cargarResultadosEnVivo = async () => {
         list.innerHTML = '<p style="color:red;">Error de conexión.</p>';
     }
 };
+
 // ==========================================
 // DICCIONARIOS Y CALENDARIO
 // ==========================================
@@ -107,12 +107,26 @@ let appConfig = { jornadaActual: 1, fase: 'grupos' };
 // ==========================================
 if (localStorage.getItem('theme') === 'light') document.body.classList.remove('dark-theme');
 
+// Esto asegura que al cargar la página se ponga el icono correcto
+document.addEventListener("DOMContentLoaded", () => {
+    const themeIcon = document.getElementById('theme-toggle-icon');
+    if (themeIcon) {
+        themeIcon.src = document.body.classList.contains('dark-theme') ? 'assets/light.svg' : 'assets/dark.svg';
+    }
+});
+
 window.toggleTema = () => {
     document.body.classList.toggle('dark-theme');
-    localStorage.setItem('theme', document.body.classList.contains('dark-theme') ? 'dark' : 'light');
+    const isDark = document.body.classList.contains('dark-theme');
+    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    
+    // Cambia el icono dinámicamente
+    const themeIcon = document.getElementById('theme-toggle-icon');
+    if (themeIcon) {
+        themeIcon.src = isDark ? 'assets/light.svg' : 'assets/dark.svg';
+    }
     toggleMenu();
 };
-
 window.toggleMenu = () => {
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('menu-overlay');
@@ -123,7 +137,6 @@ window.toggleMenu = () => {
 window.abrirModalReglas = () => { toggleMenu(); document.getElementById('modal-overlay').style.display = 'block'; document.getElementById('modal-reglas').style.display = 'block'; };
 window.cerrarModalReglas = () => { document.getElementById('modal-overlay').style.display = 'none'; document.getElementById('modal-reglas').style.display = 'none'; };
 
-// NUEVO: MODAL CALENDARIO COMPLETO
 window.abrirModalCalendario = () => {
     toggleMenu(); 
     document.getElementById('modal-overlay').style.display = 'block';
@@ -181,7 +194,7 @@ onValue(ref(db, 'survivor/jugadores'), (snapshot) => { jugadores = snapshot.val(
 function renderizarCalendario() {
     const banner = document.getElementById('global-status-banner');
     const infoJornada = calendarioMundial[appConfig.jornadaActual - 1]?.nombre || '';
-    if (banner) banner.innerHTML = `⚽ <b>JORNADA ${appConfig.jornadaActual}:</b> ${infoJornada} | Estado: <b>${appConfig.fase === 'grupos' ? 'Fase de Grupos' : 'Eliminatoria'}</b>`;
+    if (banner) banner.innerHTML = `<img src="assets/jornada.svg" class="svg-icon" style="filter: brightness(0) invert(1);"> <b>JORNADA ${appConfig.jornadaActual}:</b> ${infoJornada} | Estado: <b>${appConfig.fase === 'grupos' ? 'Fase de Grupos' : 'Eliminatoria'}</b>`;
     const adminTexto = document.getElementById('admin-jornada-text'); if (adminTexto) adminTexto.textContent = `JORNADA ${appConfig.jornadaActual}`;
     const selectFase = document.getElementById('select-fase-admin'); if (selectFase) selectFase.value = appConfig.fase;
     const divCalendario = document.getElementById('lista-calendario');
@@ -221,7 +234,7 @@ window.guardarPerfil = () => { const j = jugadores.find(j => j.id === currentUse
 window.seleccionarEquipo = (nombreEquipo) => {
     document.querySelectorAll('.team-option').forEach(el => el.classList.remove('selected'));
     const tarjeta = document.getElementById('team-opt-' + nombreEquipo.replace(/\s+/g, '-')); if (tarjeta) tarjeta.classList.add('selected');
-    document.getElementById('equipo-seleccionado').value = nombreEquipo; const btn = document.getElementById('btn-confirmar-pick'); btn.disabled = false; btn.textContent = `Confirmar a ${nombreEquipo} ⚽`;
+    document.getElementById('equipo-seleccionado').value = nombreEquipo; const btn = document.getElementById('btn-confirmar-pick'); btn.disabled = false; btn.innerHTML = `Confirmar a ${nombreEquipo} <img src="assets/jornada.svg" class="svg-icon" style="margin-left:5px; margin-right:0;">`;
 };
 function lanzarConfeti() { confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#2e7d32', '#deff9a', '#ffffff'] }); }
 function flashRojo() { document.body.classList.add('flash-red'); setTimeout(() => { document.body.classList.remove('flash-red'); }, 800); }
@@ -241,20 +254,19 @@ window.guardarPickPropio = () => {
         } else { lanzarConfeti(); mostrarToast(`Pick confirmado.`, "success"); }
     } else {
         if ((j.picks || []).includes(equipo)) return mostrarToast("¡Ya usaste a este equipo!", "error");
-        lanzarConfeti(); mostrarToast(`Pick confirmado.`, "success");
+        lanzerConfeti(); mostrarToast(`Pick confirmado.`, "success");
     }
     j.picks = [...(j.picks || []), equipo]; set(ref(db, `survivor/jugadores/${currentUser.uid}`), j);
 };
 
 function generarBadges(j) {
     let badges = "";
-    if (j.ganados >= 3) badges += '<span class="badge-icon" title="Francotirador 🎯: 3+ Victorias">🎯</span>';
-    if (j.ganados >= 1 && j.gc === 0) badges += '<span class="badge-icon" title="La Muralla 🧱: 0 Goles en contra">🧱</span>';
-    if (j.vidas === 3 && (j.picks || []).length >= 3) badges += '<span class="badge-icon" title="Intocable 🛡️: Sobrevivió intacto 3 jornadas">🛡️</span>';
-    if (j.perdidos >= 2) badges += '<span class="badge-icon" title="Pecho Frío 🧊: 2+ Derrotas">🧊</span>';
+    if (j.ganados >= 3) badges += '<img src="assets/francotirador.svg" class="badge-icon svg-icon" title="Francotirador: 3+ Victorias" style="width:16px; margin:0 2px;">';
+    if (j.ganados >= 1 && j.gc === 0) badges += '<img src="assets/muralla.svg" class="badge-icon svg-icon" title="La Muralla: 0 Goles en contra" style="width:16px; margin:0 2px;">';
+    if (j.vidas === 3 && (j.picks || []).length >= 3) badges += '<img src="assets/intocable.svg" class="badge-icon svg-icon" title="Intocable: Sobrevivió intacto 3 jornadas" style="width:16px; margin:0 2px;">';
+    if (j.perdidos >= 2) badges += '<img src="assets/pechofrio.svg" class="badge-icon svg-icon" title="Pecho Frío: 2+ Derrotas" style="width:16px; margin:0 2px;">';
     return badges;
 }
-
 function actualizarDashboard() {
     const dashboard = document.getElementById('dashboard');
     const tablaContainer = document.getElementById('tabla-general-container');
@@ -276,11 +288,11 @@ function actualizarDashboard() {
             const picksRealizados = (miJugador.picks || []).length;
             if (!miJugador.vivo) {
                 headerPanel.style.display = 'none'; interfazSeleccion.style.display = 'none'; interfazEspera.style.display = 'block';
-                interfazEspera.innerHTML = `<div style="font-size: 40px; margin-bottom: 10px;">💀</div><h3 style="color: var(--danger); margin: 0;">Eliminado</h3><p style="color: var(--text-muted); font-size: 14px; margin-top: 5px;">Has perdido todas tus vidas.</p>`;
+                interfazEspera.innerHTML = `<div style="margin-bottom: 10px;"><img src="assets/muerto.svg" class="svg-icon-large"></div><h3 style="color: var(--danger); margin: 0;">Eliminado</h3><p style="color: var(--text-muted); font-size: 14px; margin-top: 5px;">Has perdido todas tus vidas.</p>`;
                 userPanel.style.borderColor = "var(--danger)";
             } else if (picksRealizados >= appConfig.jornadaActual) {
                 headerPanel.style.display = 'none'; interfazSeleccion.style.display = 'none'; interfazEspera.style.display = 'block';
-                interfazEspera.innerHTML = `<div style="font-size: 40px; margin-bottom: 10px;">🛡️</div><h3 style="color: var(--accent-color); margin: 0;">¡Estrategia Confirmada!</h3><p style="color: var(--text-muted); font-size: 14px; margin-top: 5px;">Tu pick de <b>${miJugador.picks[miJugador.picks.length-1]}</b> está listo.</p>`;
+                interfazEspera.innerHTML = `<div style="margin-bottom: 10px;"><img src="assets/estrategia.svg" class="svg-icon-large"></div><h3 style="color: var(--accent-color); margin: 0;">¡Estrategia Confirmada!</h3><p style="color: var(--text-muted); font-size: 14px; margin-top: 5px;">Tu pick de <b>${miJugador.picks[miJugador.picks.length-1]}</b> está listo.</p>`;
                 userPanel.style.borderColor = "var(--border-color)";
             } else {
                 headerPanel.style.display = 'block'; interfazSeleccion.style.display = 'block'; interfazEspera.style.display = 'none';
@@ -288,7 +300,7 @@ function actualizarDashboard() {
                 const disp = equiposMundial.filter(e => { if (appConfig.fase === 'eliminatoria') return true; return !(miJugador.picks || []).includes(e); }).sort();
                 gridEquipos.innerHTML = '';
                 disp.forEach(e => { gridEquipos.innerHTML += `<div class="team-option" id="team-opt-${e.replace(/\s+/g, '-')}" onclick="seleccionarEquipo('${e}')"><span class="team-flag">${getFlag(e)}</span><span class="team-name">${e}</span></div>`; });
-                const btn = document.getElementById('btn-confirmar-pick'); btn.disabled = true; btn.textContent = "Selecciona un equipo primero ⚽"; document.getElementById('equipo-seleccionado').value = "";
+                const btn = document.getElementById('btn-confirmar-pick'); btn.disabled = true; btn.innerHTML = `Selecciona un equipo primero <img src="assets/jornada.svg" class="svg-icon" style="margin-left:5px; margin-right:0;">`; document.getElementById('equipo-seleccionado').value = "";
             }
         }
     }
@@ -326,7 +338,8 @@ function actualizarDashboard() {
         tablaContainer.style.display = 'block';
         let tablaHTML = `<thead><tr><th>Pos</th><th style="text-align:left;">Jugador</th><th>J</th><th>G</th><th>E</th><th>P</th><th>GF</th><th>GC</th><th>DIF</th><th>Vidas</th></tr></thead><tbody>`;
         jugadores.forEach((j, i) => {
-            const pj = (j.picks || []).length; const dif = j.difGoles > 0 ? '+' + j.difGoles : j.difGoles; const vidasHtml = j.vivo ? '❤️'.repeat(j.vidas) : '💀';
+            const pj = (j.picks || []).length; const dif = j.difGoles > 0 ? '+' + j.difGoles : j.difGoles; 
+            const vidasHtml = `<div class="vidas-container">` + (j.vivo ? Array(j.vidas).fill('<img src="assets/corazon.svg" class="svg-icon" style="width:16px; margin:0 2px;">').join('') : '<img src="assets/muerto.svg" class="svg-icon" style="width:16px; margin:0 2px;">') + `</div>`;
             const misLogros = generarBadges(j);
             tablaHTML += `<tr style="${!j.vivo ? 'opacity: 0.5;' : ''}"><td><strong>${i + 1}</strong></td><td class="td-jugador"><img src="${j.foto || 'https://via.placeholder.com/30'}"><div><span>${j.nombre}</span><div class="badges-container">${misLogros}</div></div></td><td>${pj}</td><td>${j.ganados}</td><td>${j.empatados || 0}</td><td>${j.perdidos || 0}</td><td>${j.gf||0}</td><td>${j.gc||0}</td><td><strong>${dif}</strong></td><td class="col-vidas">${vidasHtml}</td></tr>`;
         });
@@ -336,7 +349,7 @@ function actualizarDashboard() {
     // TARJETAS INDIVIDUALES
     jugadores.forEach((j, i) => {
         const card = document.createElement('div'); card.className = `card ${j.vivo ? 'vivo' : 'eliminado'}`;
-        card.innerHTML = `<div class="card-header"><img src="${j.foto || 'https://via.placeholder.com/50'}" class="avatar-img"><div style="flex-grow: 1;"><h3 style="margin:0;">#${i+1} ${j.nombre}</h3><span style="font-size: 12px; color: var(--text-muted);">🛡️ ${j.equipo}</span></div><div class="vidas-container">${j.vivo ? '❤️'.repeat(j.vidas) : '💀'}</div></div><div class="stats-row"><span>Ganados: <b>${j.ganados}</b></span><span>Dif. Goles: <b>${j.difGoles > 0 ? '+' : ''}${j.difGoles}</b></span></div><button class="btn-espia btn-interactivo" onclick="abrirModalEspia('${j.id}')">🔍 Ver Picks (Modo Espía)</button>`;
+        card.innerHTML = `<div class="card-header"><img src="${j.foto || 'https://via.placeholder.com/50'}" class="avatar-img"><div style="flex-grow: 1;"><h3 style="margin:0;">#${i+1} ${j.nombre}</h3><span style="font-size: 12px; color: var(--text-muted);"><img src="assets/equipo.svg" class="svg-icon" style="width:12px; margin-right:4px;"> ${j.equipo}</span></div><div class="vidas-container">${j.vivo ? Array(j.vidas).fill('<img src="assets/corazon.svg" class="svg-icon" style="width:18px;">').join('') : '<img src="assets/muerto.svg" class="svg-icon" style="width:18px;">'}</div></div><div class="stats-row"><span>Ganados: <b>${j.ganados}</b></span><span>Dif. Goles: <b>${j.difGoles > 0 ? '+' : ''}${j.difGoles}</b></span></div><button class="btn-espia btn-interactivo" onclick="abrirModalEspia('${j.id}')"><img src="assets/lupa.svg" class="svg-icon" style="width:14px; margin-right:5px;"> Ver Picks (Modo Espía)</button>`;
         dashboard.appendChild(card);
     });
 }
