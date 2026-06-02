@@ -186,6 +186,10 @@ onValue(ref(db, 'survivor/config'), (snapshot) => { if (snapshot.exists()) appCo
 onValue(ref(db, 'survivor/jugadores'), (snapshot) => { jugadores = snapshot.val() ? Object.values(snapshot.val()) : []; actualizarTodo(); });
 
 function renderizarCalendario() {
+    // ACTUALIZACIÓN DEL CONTADOR DE INSCRITOS
+    const elInscritos = document.getElementById('num-inscritos');
+    if (elInscritos) elInscritos.textContent = jugadores.length;
+
     const banner = document.getElementById('global-status-banner');
     const infoJornada = calendarioMundial[appConfig.jornadaActual - 1]?.nombre || '';
     if (banner) banner.innerHTML = `<img src="assets/jornada.svg" class="svg-icon"> <b>JORNADA ${appConfig.jornadaActual}:</b> ${infoJornada} | Estado: <b>${appConfig.fase === 'grupos' ? 'Fase de Grupos' : 'Eliminatoria'}</b>`;
