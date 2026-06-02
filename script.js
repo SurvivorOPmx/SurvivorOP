@@ -51,8 +51,6 @@ window.cargarResultadosEnVivo = async () => {
         });
         const data = await response.json();
         
-        console.log("Datos recibidos de API-Football:", data);
-        
         list.innerHTML = ''; // Limpiamos
 
         if(data.response && data.response.length > 0) {
@@ -70,11 +68,11 @@ window.cargarResultadosEnVivo = async () => {
                 `;
             });
         } else {
-            list.innerHTML = '<p style="text-align:center;">No hay partidos en vivo ahora mismo.</p>';
+            list.innerHTML = '<p style="text-align:center; font-size:14px; color:var(--text-muted);">No hay partidos en vivo ahora mismo.</p>';
         }
     } catch(error) {
         console.error("Error:", error);
-        list.innerHTML = '<p style="color:red;">Error de conexión.</p>';
+        list.innerHTML = '<p style="color:red; text-align:center;">Error de conexión API.</p>';
     }
 };
 
@@ -107,7 +105,6 @@ let appConfig = { jornadaActual: 1, fase: 'grupos' };
 // ==========================================
 if (localStorage.getItem('theme') === 'light') document.body.classList.remove('dark-theme');
 
-// Esto asegura que al cargar la página se ponga el icono correcto
 document.addEventListener("DOMContentLoaded", () => {
     const themeIcon = document.getElementById('theme-toggle-icon');
     if (themeIcon) {
@@ -119,14 +116,11 @@ window.toggleTema = () => {
     document.body.classList.toggle('dark-theme');
     const isDark = document.body.classList.contains('dark-theme');
     localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    
-    // Cambia el icono dinámicamente
     const themeIcon = document.getElementById('theme-toggle-icon');
-    if (themeIcon) {
-        themeIcon.src = isDark ? 'assets/light.svg' : 'assets/dark.svg';
-    }
+    if (themeIcon) { themeIcon.src = isDark ? 'assets/light.svg' : 'assets/dark.svg'; }
     toggleMenu();
 };
+
 window.toggleMenu = () => {
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('menu-overlay');
@@ -194,7 +188,7 @@ onValue(ref(db, 'survivor/jugadores'), (snapshot) => { jugadores = snapshot.val(
 function renderizarCalendario() {
     const banner = document.getElementById('global-status-banner');
     const infoJornada = calendarioMundial[appConfig.jornadaActual - 1]?.nombre || '';
-    if (banner) banner.innerHTML = `<img src="assets/jornada.svg" class="svg-icon" style="filter: brightness(0) invert(1);"> <b>JORNADA ${appConfig.jornadaActual}:</b> ${infoJornada} | Estado: <b>${appConfig.fase === 'grupos' ? 'Fase de Grupos' : 'Eliminatoria'}</b>`;
+    if (banner) banner.innerHTML = `<img src="assets/jornada.svg" class="svg-icon"> <b>JORNADA ${appConfig.jornadaActual}:</b> ${infoJornada} | Estado: <b>${appConfig.fase === 'grupos' ? 'Fase de Grupos' : 'Eliminatoria'}</b>`;
     const adminTexto = document.getElementById('admin-jornada-text'); if (adminTexto) adminTexto.textContent = `JORNADA ${appConfig.jornadaActual}`;
     const selectFase = document.getElementById('select-fase-admin'); if (selectFase) selectFase.value = appConfig.fase;
     const divCalendario = document.getElementById('lista-calendario');
@@ -254,7 +248,7 @@ window.guardarPickPropio = () => {
         } else { lanzarConfeti(); mostrarToast(`Pick confirmado.`, "success"); }
     } else {
         if ((j.picks || []).includes(equipo)) return mostrarToast("¡Ya usaste a este equipo!", "error");
-        lanzerConfeti(); mostrarToast(`Pick confirmado.`, "success");
+        lanzarConfeti(); mostrarToast(`Pick confirmado.`, "success");
     }
     j.picks = [...(j.picks || []), equipo]; set(ref(db, `survivor/jugadores/${currentUser.uid}`), j);
 };
@@ -267,6 +261,7 @@ function generarBadges(j) {
     if (j.perdidos >= 2) badges += '<img src="assets/pechofrio.svg" class="badge-icon svg-icon" title="Pecho Frío: 2+ Derrotas" style="width:16px; margin:0 2px;">';
     return badges;
 }
+
 function actualizarDashboard() {
     const dashboard = document.getElementById('dashboard');
     const tablaContainer = document.getElementById('tabla-general-container');
@@ -281,7 +276,6 @@ function actualizarDashboard() {
     
     if(!dashboard) return; dashboard.innerHTML = '';
     
-    // FOCUS PANEL
     if (currentUser && userPanel && interfazSeleccion && interfazEspera) {
         const miJugador = jugadores.find(j => j.id === currentUser.uid);
         if (miJugador) {
@@ -305,10 +299,8 @@ function actualizarDashboard() {
         }
     }
     
-    // ORDENAR JUGADORES PARA TODO LO DEMÁS
     jugadores.sort((a,b) => (b.vivo - a.vivo) || (b.vidas - a.vidas) || (b.ganados - a.ganados) || (b.difGoles - a.difGoles));
 
-    // PODIO - SALÓN DE LA FAMA
     if(jugadores.length >= 3 && podiumContainer && podiumContent) {
         podiumContainer.style.display = 'block';
         const top3 = jugadores.slice(0, 3);
@@ -321,19 +313,6 @@ function actualizarDashboard() {
         podiumContent.innerHTML = htmlPodium;
     }
 
-    // ESTADÍSTICAS
-    if(jugadores.length > 0) {
-        const pichichi = [...jugadores].sort((a,b) => (b.ganados - a.ganados) || (b.difGoles - a.difGoles))[0];
-        const pechoFrio = [...jugadores].sort((a,b) => (a.vidas - b.vidas) || (b.ganados - a.ganados) || (a.difGoles - b.difGoles))[0];
-        const estCont = document.getElementById('estadisticas-container');
-        if(estCont) {
-            estCont.style.display = 'flex';
-            document.getElementById('stat-pichichi').innerHTML = `${pichichi.nombre} <br><span style="font-size: 12px; color: var(--text-muted); font-weight: normal;">${pichichi.ganados} ganados (+${pichichi.difGoles} dif)</span>`;
-            document.getElementById('stat-pecho-frio').innerHTML = `${pechoFrio.nombre} <br><span style="font-size: 12px; color: var(--text-muted); font-weight: normal;">${pechoFrio.vidas} vidas (${pechoFrio.difGoles} dif)</span>`;
-        }
-    }
-
-    // TABLA GENERAL CON LOGROS
     if(jugadores.length > 0 && tablaContainer && tablaPosiciones) {
         tablaContainer.style.display = 'block';
         let tablaHTML = `<thead><tr><th>Pos</th><th style="text-align:left;">Jugador</th><th>J</th><th>G</th><th>E</th><th>P</th><th>GF</th><th>GC</th><th>DIF</th><th>Vidas</th></tr></thead><tbody>`;
@@ -346,10 +325,9 @@ function actualizarDashboard() {
         tablaHTML += '</tbody>'; tablaPosiciones.innerHTML = tablaHTML;
     } else if (tablaContainer) { tablaContainer.style.display = 'none'; }
 
-    // TARJETAS INDIVIDUALES
     jugadores.forEach((j, i) => {
         const card = document.createElement('div'); card.className = `card ${j.vivo ? 'vivo' : 'eliminado'}`;
-        card.innerHTML = `<div class="card-header"><img src="${j.foto || 'https://via.placeholder.com/50'}" class="avatar-img"><div style="flex-grow: 1;"><h3 style="margin:0;">#${i+1} ${j.nombre}</h3><span style="font-size: 12px; color: var(--text-muted);"><img src="assets/equipo.svg" class="svg-icon" style="width:12px; margin-right:4px;"> ${j.equipo}</span></div><div class="vidas-container">${j.vivo ? Array(j.vidas).fill('<img src="assets/corazon.svg" class="svg-icon" style="width:18px;">').join('') : '<img src="assets/muerto.svg" class="svg-icon" style="width:18px;">'}</div></div><div class="stats-row"><span>Ganados: <b>${j.ganados}</b></span><span>Dif. Goles: <b>${j.difGoles > 0 ? '+' : ''}${j.difGoles}</b></span></div><button class="btn-espia btn-interactivo" onclick="abrirModalEspia('${j.id}')"><img src="assets/lupa.svg" class="svg-icon" style="width:14px; margin-right:5px;"> Ver Picks (Modo Espía)</button>`;
+        card.innerHTML = `<div class="card-header"><img src="${j.foto || 'https://via.placeholder.com/50'}" class="avatar-img"><div style="flex-grow: 1;"><h3 style="margin:0;">#${i+1} ${j.nombre}</h3><span style="font-size: 12px; color: var(--text-muted);"><img src="assets/equipo.svg" class="svg-icon" style="width:12px; margin-right:4px;"> ${j.equipo}</span></div><div class="vidas-container">${j.vivo ? Array(j.vidas).fill('<img src="assets/corazon.svg" class="svg-icon" style="width:18px;">').join('') : '<img src="assets/muerto.svg" class="svg-icon" style="width:18px;">'}</div></div><div class="stats-row"><span>Ganados: <b>${j.ganados}</b></span><span>Dif. Goles: <b>${j.difGoles > 0 ? '+' : ''}${j.difGoles}</b></span></div><button class="btn-espia btn-interactivo btn-outline" onclick="abrirModalEspia('${j.id}')"><img src="assets/lupa.svg" class="svg-icon" style="width:14px; margin-right:5px;"> Ver Picks (Modo Espía)</button>`;
         dashboard.appendChild(card);
     });
 }
@@ -382,7 +360,7 @@ window.enviarMensajeChat = () => {
 };
 
 // ==========================================
-// CONTROLES DE ADMINISTRADOR (MANUAL COMPLETO)
+// CONTROLES DE ADMINISTRADOR
 // ==========================================
 if (sessionStorage.getItem('isAdmin') === 'true') document.getElementById('admin-panel').style.display = 'block';
 window.accesoAdmin = () => { toggleMenu(); if(prompt("Clave de Administrador:") === "OP2026") { document.getElementById('admin-panel').style.display = 'block'; sessionStorage.setItem('isAdmin', 'true'); mostrarToast("Acceso Concedido", "success"); } else mostrarToast("Clave incorrecta.", "error"); };
@@ -391,6 +369,17 @@ window.cambiarFase = (fase) => { set(ref(db, 'survivor/config/fase'), fase); mos
 window.agregarJugadorManual = () => { const nombre = document.getElementById('nuevo-jugador-nombre').value; if (!nombre) return mostrarToast("Ingresa un nombre.", "error"); const id = "manual_" + Date.now(); set(ref(db, `survivor/jugadores/${id}`), { id, nombre, equipo: "Invitado", foto: "https://via.placeholder.com/50", vivo: true, vidas: 3, ganados: 0, empatados: 0, perdidos: 0, gf: 0, gc: 0, difGoles: 0, picks: [] }); document.getElementById('nuevo-jugador-nombre').value = ''; mostrarToast("Usuario manual creado.", "success"); };
 window.eliminarUsuario = () => { const id = document.getElementById('select-jugador-eliminar').value; if(!id) return mostrarToast("Selecciona usuario.", "error"); if(confirm("¿Eliminar usuario?")) { remove(ref(db, `survivor/jugadores/${id}`)); mostrarToast("Usuario eliminado.", "warning"); } };
 window.registrarPick = () => { const id = document.getElementById('select-jugador').value; const equipo = document.getElementById('select-equipo').value; if(!id || !equipo) return mostrarToast("Faltan datos.", "error"); const j = jugadores.find(j => j.id === id); j.picks = [...(j.picks || []), equipo]; set(ref(db, `survivor/jugadores/${id}`), j); mostrarToast("Pick forzado asignado.", "success"); };
+
+window.agregarVida = () => {
+    const id = document.getElementById('select-jugador-vidas').value;
+    if (!id) return mostrarToast("Selecciona un jugador primero.", "error");
+    const j = jugadores.find(j => j.id === id);
+    j.vidas = (j.vidas || 0) + 1;
+    if (j.vidas > 0 && !j.vivo) { j.vivo = true; }
+    set(ref(db, `survivor/jugadores/${id}`), j);
+    mostrarToast(`¡Vida añadida! ${j.nombre} ahora tiene ${j.vidas} vidas.`, "success");
+    lanzarConfeti(); 
+};
 
 window.resolverPartido = (tipoResultado) => { 
     const id = document.getElementById('select-jugador-vidas').value; 
@@ -406,8 +395,6 @@ window.resolverPartido = (tipoResultado) => {
     j.gf = (j.gf || 0) + gf; j.gc = (j.gc || 0) + gc; j.difGoles += (gf - gc); 
     set(ref(db, `survivor/jugadores/${id}`), j); 
 };
-
-window.verificarResultadosAutomaticos = async () => { /* Logic is in cargarResultadosEnVivo for manual check */ mostrarToast("Usa el panel 'Partidos de Hoy' para revisar resultados.", "warning"); };
 
 window.reiniciarLiga = () => { 
     if(confirm("🚨 ¿Seguro que quieres reiniciar la temporada completa?")) { 

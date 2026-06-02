@@ -23,13 +23,13 @@
     <div id="menu-overlay" onclick="toggleMenu()"></div>
 
     <div style="position: absolute; top: 15px; right: 15px; display: flex; gap: 10px;">
-        <button id="login-btn" onclick="loginConGoogle()" style="background-color: #4285F4; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;">Entrar 👤</button>
-        <button id="config-btn" style="display:none; background-color: var(--accent-color); color: #121212; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;" onclick="abrirModalPerfil()"><img src="assets/settings.svg" class="svg-icon"> Perfil</button>
-        <button id="perfil-btn" style="display:none; background-color: #333; color: white; border: none; padding: 10px 20px; border-radius: 4px; cursor: pointer;" onclick="cerrarSesion()"><img src="assets/salir.svg" class="svg-icon"> Salir</button>
+        <button id="login-btn" onclick="loginConGoogle()" style="background-color: #4285F4; color: white;">Entrar <img src="assets/usuario.svg" class="svg-icon" style="margin-left:5px; margin-right:0; width:16px; filter: brightness(0) invert(1);"></button>
+        <button id="config-btn" style="display:none; color: #121212;" onclick="abrirModalPerfil()"><img src="assets/settings.svg" class="svg-icon"> Perfil</button>
+        <button id="perfil-btn" style="display:none; background-color: #333; color: white;" onclick="cerrarSesion()"><img src="assets/salir.svg" class="svg-icon"> Salir</button>
     </div>
 
     <img src="logo.png" alt="Survivor Mundial 2026" class="logo" ondblclick="accesoAdmin()" onerror="this.style.display='none'; document.getElementById('fallback-title').style.display='block';">
-    <h1 id="fallback-title" style="display:none; text-align: center; color: var(--accent-color);" ondblclick="accesoAdmin()">🏆 Survivor Mundial</h1>
+    <h1 id="fallback-title" style="display:none; text-align: center; color: var(--accent-color);" ondblclick="accesoAdmin()"><img src="assets/medallas.svg" class="svg-icon"> Survivor Mundial</h1>
     
     <div class="status-banner" id="global-status-banner">
         <img src="assets/jornada.svg" class="svg-icon"> Cargando estado del torneo...
@@ -44,7 +44,7 @@
         <div id="interfaz-seleccion" style="display: none; animation: fadeIn 0.5s ease;">
             <div id="grid-equipos" class="team-grid"></div>
             <input type="hidden" id="equipo-seleccionado" value="">
-            <button id="btn-confirmar-pick" class="btn-interactivo" onclick="guardarPickPropio()" style="width: 100%; background-color: var(--accent-color); color: #121212; border: none; padding: 12px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 16px; margin-top: 10px;" disabled>Selecciona un equipo primero ⚽</button>
+            <button id="btn-confirmar-pick" class="btn-interactivo" onclick="guardarPickPropio()" style="width: 100%; color: #121212; font-size: 16px; margin-top: 10px;" disabled>Selecciona un equipo primero <img src="assets/jornada.svg" class="svg-icon" style="margin-left:5px; margin-right:0;"></button>
         </div>
 
         <div id="interfaz-espera" style="display: none; animation: fadeIn 0.5s ease; text-align: center; padding: 20px 0;">
@@ -60,9 +60,10 @@
             <p style="text-align: center; color: var(--text-muted);">Cargando marcadores...</p>
         </div>
         <div style="text-align: center; margin-top: 10px;">
-<button class="btn-interactivo" onclick="cargarResultadosEnVivo()" style="background: #333; color: white; padding: 6px 12px; font-size: 12px; display: inline-flex; align-items: center; justify-content: center;">
-    Actualizar Marcadores <img src="assets/refresh.svg" style="width: 16px; height: 16px; margin-left: 6px; display: block;">
-</button>        </div>
+            <button class="btn-interactivo" onclick="cargarResultadosEnVivo()" style="background: #333; color: white; padding: 6px 12px; font-size: 12px;">
+                Actualizar Marcadores <img src="assets/refresh.svg" class="svg-icon" style="margin-left:5px; margin-right:0; width:16px;">
+            </button>
+        </div>
     </div>
 
     <div class="calendario-container modal-popup-smooth">
@@ -82,14 +83,14 @@
         </div>
         <div style="margin-top: 15px; font-size: 12px; color: var(--text-muted); text-align: center; background: var(--input-bg); padding: 10px; border-radius: 8px;">
             <b>Medallas:</b> 
-<img src="assets/francotirador.svg" class="svg-icon" style="width:14px; margin:0 2px;"> Francotirador (3+ Victorias) | 
-<img src="assets/muralla.svg" class="svg-icon" style="width:14px; margin:0 2px;"> La Muralla (0 Goles en Contra) | 
-<img src="assets/intocable.svg" class="svg-icon" style="width:14px; margin:0 2px;"> Intocable (3 Vidas Intactas) | 
-<img src="assets/pechofrio.svg" class="svg-icon" style="width:14px; margin:0 2px;"> Pecho Frío (2+ Derrotas)
+            <img src="assets/francotirador.svg" class="svg-icon" style="width:14px; margin:0 2px;"> Francotirador (3+ Victorias) | 
+            <img src="assets/muralla.svg" class="svg-icon" style="width:14px; margin:0 2px;"> La Muralla (0 Goles en Contra) | 
+            <img src="assets/intocable.svg" class="svg-icon" style="width:14px; margin:0 2px;"> Intocable (3 Vidas Intactas) | 
+            <img src="assets/pechofrio.svg" class="svg-icon" style="width:14px; margin:0 2px;"> Pecho Frío (2+ Derrotas)
         </div>
     </div>
 
-    <h3 style="text-align: center; color: var(--text-color); margin-top: 40px; margin-bottom: 10px;">🛡️ Historial de Picks</h3>
+    <h3 style="text-align: center; color: var(--text-color); margin-top: 40px; margin-bottom: 10px;"><img src="assets/estrategia.svg" class="svg-icon"> Historial de Picks</h3>
     <div id="dashboard" class="dashboard"></div>
 
     <div class="chat-container modal-popup-smooth" id="chat-general-container" style="display: none;">
@@ -105,11 +106,11 @@
     
     <div id="modal-perfil" class="modal-bouncy" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:var(--card-bg); padding:30px; border-radius:12px; z-index:1000; border:1px solid var(--accent-color); width: 90%; max-width: 400px;">
         <h2 style="color:var(--accent-color); text-align:center; margin-top: 0;">Personaliza tu Perfil</h2>
-        <input type="text" id="edit-nick" placeholder="Nickname" style="width:100%; margin:10px 0;">
-        <input type="text" id="edit-equipo" placeholder="Nombre Equipo" style="width:100%; margin:10px 0;">
-        <div style="display:flex; gap:10px; justify-content:center; margin-top:20px;">
-            <button class="btn-interactivo" style="background:#555; color: white;" onclick="cerrarModalPerfil()">Cancelar</button>
-            <button class="btn-interactivo" style="background:var(--accent-color); color: #121212; font-weight:bold;" onclick="guardarPerfil()">Guardar 💾</button>
+        <input type="text" id="edit-nick" placeholder="Nickname" style="margin-bottom:15px;">
+        <input type="text" id="edit-equipo" placeholder="Nombre Equipo" style="margin-bottom:15px;">
+        <div style="display:flex; gap:10px; justify-content:center; margin-top:10px;">
+            <button class="btn-interactivo btn-outline" onclick="cerrarModalPerfil()">Cancelar</button>
+            <button class="btn-interactivo" style="color: #121212;" onclick="guardarPerfil()">Guardar <img src="assets/settings.svg" class="svg-icon" style="margin-left:5px; margin-right:0; width:16px;"></button>
         </div>
     </div>
 
@@ -125,81 +126,108 @@
             <p><strong>4. Criterios de Desempate (Top 3):</strong><br>
             1° Vidas restantes | 2° Partidos Ganados | 3° Diferencia de Goles (GF - GC).</p>
             <p><strong>5. Sistema de Medallas:</strong><br>
-            🎯 Francotirador (3+ Victorias) | 🧱 La Muralla (0 Goles en contra)<br>🛡️ Intocable (3 Vidas intactas) | 🧊 Pecho Frío (2+ Derrotas).</p>
+            <img src="assets/francotirador.svg" class="svg-icon" style="width:14px;"> Francotirador (3+ Victorias) | <img src="assets/muralla.svg" class="svg-icon" style="width:14px;"> La Muralla (0 Goles en contra)<br><img src="assets/intocable.svg" class="svg-icon" style="width:14px;"> Intocable (3 Vidas intactas) | <img src="assets/pechofrio.svg" class="svg-icon" style="width:14px;"> Pecho Frío (2+ Derrotas).</p>
         </div>
-        <button class="btn-interactivo" style="width:100%; margin-top:20px; background:var(--accent-color); color: #111; font-weight:bold;" onclick="cerrarModalReglas()">Entendido 👍</button>
+        <button class="btn-interactivo" style="width:100%; margin-top:20px; color: #111;" onclick="cerrarModalReglas()">Entendido <img src="assets/reglas.svg" class="svg-icon" style="margin-left:5px; margin-right:0; width:16px;"></button>
     </div>
 
     <div id="modal-calendario" class="modal-bouncy" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:var(--card-bg); padding:30px; border-radius:12px; z-index:1000; border:1px solid var(--accent-color); width: 90%; max-width: 700px; max-height: 85vh; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
         <h2 style="color:var(--accent-color); text-align:center; margin-top: 0; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;"><img src="assets/calendario.svg" class="svg-icon"> Calendario Completo</h2>
         <div id="calendario-completo-contenido" style="margin-top: 15px;"></div>
-        <button class="btn-interactivo" style="width:100%; margin-top:20px; background:#555; color: white; font-weight:bold; padding: 10px; border-radius: 6px; border: none; cursor: pointer;" onclick="cerrarModalCalendario()">Cerrar <img src="assets/salir.svg" class="svg-icon" style="margin-right:0; margin-left:5px; width:12px;"></button>
+        <button class="btn-interactivo btn-outline" style="width:100%; margin-top:20px;" onclick="cerrarModalCalendario()">Cerrar <img src="assets/salir.svg" class="svg-icon" style="margin-right:0; margin-left:5px; width:12px;"></button>
     </div>
 
     <div id="modal-espia" class="modal-bouncy" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:var(--card-bg); padding:30px; border-radius:12px; z-index:1000; border:1px solid var(--accent-color); width: 90%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
         <h2 id="espia-nombre" style="color:var(--accent-color); text-align:center; margin-top: 0; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">Picks de Jugador</h2>
         <div id="espia-contenido" style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px; max-height: 300px; overflow-y: auto;"></div>
-        <button class="btn-interactivo" style="width:100%; margin-top:20px; background:#555; color: white; font-weight:bold; padding: 10px; border-radius: 6px; border: none; cursor: pointer;" onclick="cerrarModalEspia()">Cerrar <img src="assets/salir.svg" class="svg-icon" style="margin-right:0; margin-left:5px; width:12px;"></button>
+        <button class="btn-interactivo btn-outline" style="width:100%; margin-top:20px;" onclick="cerrarModalEspia()">Cerrar <img src="assets/salir.svg" class="svg-icon" style="margin-right:0; margin-left:5px; width:12px;"></button>
     </div>
 
+    <!-- NUEVO CENTRO DE COMANDO ADMIN -->
     <div id="admin-panel" class="admin-panel modal-bouncy" style="display: none;">
-        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding-bottom: 10px; margin-bottom: 15px;">
-            <h2 style="margin: 0;"><img src="assets/admin.svg" class="svg-icon"> Panel Admin</h2>
-            <button class="btn-interactivo" style="background: #333; color: white; padding: 5px 10px;" onclick="document.getElementById('admin-panel').style.display='none'">Cerrar <img src="assets/salir.svg" class="svg-icon" style="margin-right:0; margin-left:5px; width:12px;"></button>
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #383838; padding-bottom: 15px; margin-bottom: 20px;">
+            <h2 style="margin: 0; color: white; display: flex; align-items: center; gap: 10px;">
+                <img src="assets/admin.svg" class="svg-icon" style="width: 24px; height: 24px;"> Centro de Comando OP
+            </h2>
+            <button class="btn-interactivo btn-outline" style="padding: 6px 12px; font-size: 12px;" onclick="document.getElementById('admin-panel').style.display='none'">
+                Cerrar <img src="assets/salir.svg" class="svg-icon" style="margin: 0; width: 12px;">
+            </button>
         </div>
         
-        <div class="admin-section" style="background: #1a1a1a; padding: 15px; border-radius: 8px; border-left: 4px solid var(--accent-color);">
-            <h3>⏱️ Torneo Global</h3>
-            <div class="form-group">
-                <button class="btn-interactivo" onclick="cambiarJornada(-1)">⏪ Retroceder</button>
-                <span id="admin-jornada-text" style="font-weight: bold; font-size: 16px; color: var(--accent-color); margin: 0 10px;">Jornada X</span>
-                <button class="btn-interactivo" onclick="cambiarJornada(1)">Avanzar ⏩</button>
-            </div>
-            <div class="form-group" style="margin-top: 10px;">
-                <span style="color: #aaa;">Fase Actual:</span>
-                <select id="select-fase-admin" onchange="cambiarFase(this.value)">
-                    <option value="grupos">Fase de Grupos (Clásico)</option>
-                    <option value="eliminatoria">Eliminatoria (Reinicio & Sacrificio)</option>
-                </select>
+        <div class="admin-section">
+            <h3>⏱️ Control del Torneo</h3>
+            <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                <div style="flex: 1; min-width: 250px; display: flex; align-items: center; gap: 10px;">
+                    <button class="btn-interactivo" style="background: #444; color: white;" onclick="cambiarJornada(-1)">⏪ Retroceder</button>
+                    <span id="admin-jornada-text" style="font-weight: bold; font-size: 16px; color: var(--accent-color); padding: 8px 15px; background: #111; border-radius: 8px; border: 1px solid #333;">JORNADA X</span>
+                    <button class="btn-interactivo" style="background: #444; color: white;" onclick="cambiarJornada(1)">Avanzar ⏩</button>
+                </div>
+                <div style="flex: 1; min-width: 250px; display: flex; align-items: center; gap: 10px;">
+                    <span style="color: #aaa; font-weight: bold; font-size: 12px; text-transform: uppercase;">Fase:</span>
+                    <select id="select-fase-admin" style="flex-grow: 1;" onchange="cambiarFase(this.value)">
+                        <option value="grupos">Fase de Grupos (Clásico)</option>
+                        <option value="eliminatoria">Eliminatoria (Reinicio & Sacrificio)</option>
+                    </select>
+                </div>
             </div>
         </div>
 
         <div class="admin-section">
-            <h3>👥 Gestión Usuarios</h3>
-            <div class="form-group">
-                <input type="text" id="nuevo-jugador-nombre" placeholder="Nombre de invitado...">
-                <button class="btn-interactivo" onclick="agregarJugadorManual()">Crear ➕</button>
-            </div>
-            <div class="form-group">
-                <select id="select-jugador-eliminar"></select>
-                <button class="btn-danger btn-interactivo" onclick="eliminarUsuario()">Eliminar 🗑️</button>
+            <h3>👥 Base de Jugadores</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="nuevo-jugador-nombre" placeholder="Nombre de invitado..." style="flex: 2;">
+                    <button class="btn-interactivo" style="flex: 1; background: #4CAF50; color: white;" onclick="agregarJugadorManual()">Crear ➕</button>
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <select id="select-jugador-eliminar" style="flex: 2;"></select>
+                    <button class="btn-danger btn-interactivo" style="flex: 1;" onclick="eliminarUsuario()">Eliminar 🗑️</button>
+                </div>
             </div>
         </div>
         
         <div class="admin-section">
-            <h3>📊 Asignar Picks & Resolver</h3>
-            <div class="form-group">
-                <select id="select-jugador"></select>
-                <select id="select-equipo"></select>
-                <button class="btn-interactivo" onclick="registrarPick()">Forzar Pick</button>
+            <h3>📊 Operaciones en Cancha</h3>
+            
+            <div style="background: #1e1e1e; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #333;">
+                <p style="margin: 0 0 10px 0; color: #888; font-size: 11px; text-transform: uppercase; font-weight: bold;">Asignación Forzada de Pick</p>
+                <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                    <select id="select-jugador" style="flex: 1; min-width: 150px;"></select>
+                    <select id="select-equipo" style="flex: 1; min-width: 150px;"></select>
+                    <button class="btn-interactivo" style="background: #fff; color: #111;" onclick="registrarPick()">Forzar Pick</button>
+                </div>
             </div>
-            <div class="form-group" style="margin-top: 10px;">
-                <select id="select-jugador-vidas" style="width: 100%; margin-bottom: 10px;"></select>
-            </div>
-            <div class="form-group">
-                <input type="number" id="goles-favor" placeholder="Goles Favor" style="width: 45%;">
-                <input type="number" id="goles-contra" placeholder="Goles Contra" style="width: 45%;">
-            </div>
-            <div class="form-group" style="justify-content: center; margin-top: 10px; gap: 5px;">
-                <button class="btn-interactivo" style="background-color: #2e7d32; color: white; flex: 1;" onclick="resolverPartido('G')">Ganó 🟢</button>
-                <button class="btn-interactivo" style="background-color: #f57c00; color: white; flex: 1;" onclick="resolverPartido('E')">Empató 🟡</button>
-                <button class="btn-danger btn-interactivo" style="flex: 1;" onclick="resolverPartido('P')">Perdió 🔴</button>
+
+            <div style="background: #1e1e1e; padding: 15px; border-radius: 8px; border: 1px solid #333;">
+                <p style="margin: 0 0 10px 0; color: #888; font-size: 11px; text-transform: uppercase; font-weight: bold;">Resultados, Goles y Tienda de Vidas</p>
+                
+                <div style="display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap;">
+                    <select id="select-jugador-vidas" style="flex: 2; min-width: 200px;"></select>
+                    <button class="btn-interactivo" style="flex: 1; background-color: #E91E63; color: white;" onclick="agregarVida()">
+                        <img src="assets/corazon.svg" class="svg-icon" style="width:16px; filter: brightness(0) invert(1);"> Añadir +1 Vida
+                    </button>
+                </div>
+                
+                <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                    <input type="number" id="goles-favor" placeholder="Goles a Favor (GF)" style="flex: 1;">
+                    <input type="number" id="goles-contra" placeholder="Goles en Contra (GC)" style="flex: 1;">
+                </div>
+                
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn-interactivo" style="background-color: #2e7d32; color: white; flex: 1;" onclick="resolverPartido('G')">Ganó 🟢</button>
+                    <button class="btn-interactivo" style="background-color: #f57c00; color: white; flex: 1;" onclick="resolverPartido('E')">Empató 🟡</button>
+                    <button class="btn-danger btn-interactivo" style="flex: 1;" onclick="resolverPartido('P')">Perdió 🔴</button>
+                </div>
             </div>
         </div>
         
-        <div class="admin-section" style="border-top: 1px dashed #444; margin-top: 10px; padding-top: 20px;">
-            <button class="btn-interactivo" style="width: 100%; background: #1976d2; color: white; margin-bottom: 10px;" onclick="verificarResultadosAutomaticos()">Actualizar Jornada (SofaScore) 🌐</button>
-            <button class="btn-danger btn-interactivo" style="width: 100%;" onclick="reiniciarLiga()">REINICIAR LIGA COMPLETA 🔄</button>
+        <div style="display: flex; gap: 15px; margin-top: 25px;">
+            <button class="btn-interactivo" style="flex: 1; background: #1976d2; color: white; padding: 12px;" onclick="cargarResultadosEnVivo()">
+                Actualizar API Global 🌐
+            </button>
+            <button class="btn-danger btn-interactivo" style="flex: 1; padding: 12px;" onclick="reiniciarLiga()">
+                REINICIAR LIGA <img src="assets/refresh.svg" class="svg-icon" style="width:16px; filter:brightness(0) invert(1); margin-left:5px; margin-right:0;">
+            </button>
         </div>
     </div>
 
