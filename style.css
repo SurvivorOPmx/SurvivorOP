@@ -34,8 +34,7 @@ body { background-color: var(--bg-color); color: var(--text-color); font-family:
 /* ========================================= */
 /* REDISEÑO GLOBAL DE BOTONES PRO            */
 /* ========================================= */
-/* Solo afecta a los botones interactivos principales, ignorando menús y X's */
-.btn-interactivo {
+button, .btn-interactivo {
     background-color: var(--accent-color);
     color: #111;
     border: none;
@@ -52,23 +51,30 @@ body { background-color: var(--bg-color); color: var(--text-color); font-family:
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-.btn-interactivo:hover {
+button:hover, .btn-interactivo:hover {
     transform: translateY(-2px);
     filter: brightness(1.1);
     box-shadow: 0 6px 12px rgba(0,0,0,0.2);
 }
 
-.btn-interactivo:active {
+button:active, .btn-interactivo:active {
     transform: translateY(1px) scale(0.98);
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
+/* Arreglo: Ahora los botones transparentes se adaptan al Modo Claro y Oscuro */
 .btn-outline {
     background-color: transparent !important;
-    border: 1px solid #555 !important;
-    color: #fff !important;
+    border: 1px solid var(--text-muted) !important;
+    color: var(--text-color) !important;
 }
-.btn-outline:hover { background-color: #333 !important; border-color: #fff !important; }
+.btn-outline:hover { 
+    background-color: rgba(128, 128, 128, 0.15) !important; 
+    border-color: var(--text-color) !important; 
+}
+
+/* Botones Rojos (Cerrar/Salir) */
+.btn-danger { background: var(--danger) !important; color: white !important; border: none !important; }
 
 /* TOAST IN-APP */
 #toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
@@ -280,4 +286,3 @@ button:hover .svg-icon, .menu-item:hover .svg-icon { transform: scale(1.15) rota
 .svg-icon-large { width: 70px; height: 70px; display: block; margin: 0 auto; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3)); animation: popIn 0.8s ease; }
 button .svg-icon[style*="margin-left"] { margin-right: 0 !important; }
 .podium-spot .svg-icon { width: 35px; height: 35px; margin: 0; margin-bottom: 5px; }
-.btn-danger { background: var(--danger) !important; color: white !important; }

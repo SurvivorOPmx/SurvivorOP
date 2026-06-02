@@ -23,9 +23,11 @@
     <div id="menu-overlay" onclick="toggleMenu()"></div>
 
     <div style="position: absolute; top: 15px; right: 15px; display: flex; gap: 10px;">
-        <button id="login-btn" onclick="loginConGoogle()" style="background-color: #4285F4; color: white;">Entrar <img src="assets/usuario.svg" class="svg-icon" style="margin-left:5px; margin-right:0; width:16px; filter: brightness(0) invert(1);"></button>
-        <button id="config-btn" style="display:none; color: #121212;" onclick="abrirModalPerfil()"><img src="assets/settings.svg" class="svg-icon"> Perfil</button>
-        <button id="perfil-btn" style="display:none; background-color: #333; color: white;" onclick="cerrarSesion()"><img src="assets/salir.svg" class="svg-icon"> Salir</button>
+        <button id="login-btn" class="btn-interactivo" onclick="loginConGoogle()" style="background-color: #ffffff; color: #333; border: 1px solid #ccc;">
+            <img src="assets/google.svg" class="svg-icon" style="margin-right: 8px; width: 18px;"> Continuar con Google
+        </button>
+        <button id="config-btn" class="btn-interactivo" style="display:none; color: #121212;" onclick="abrirModalPerfil()"><img src="assets/settings.svg" class="svg-icon"> Perfil</button>
+        <button id="perfil-btn" class="btn-interactivo btn-danger" style="display:none;" onclick="cerrarSesion()"><img src="assets/salir.svg" class="svg-icon" style="filter: brightness(0) invert(1);"> Salir</button>
     </div>
 
     <img src="logo.png" alt="Survivor Mundial 2026" class="logo" ondblclick="accesoAdmin()" onerror="this.style.display='none'; document.getElementById('fallback-title').style.display='block';">
@@ -109,7 +111,7 @@
         <input type="text" id="edit-nick" placeholder="Nickname" style="margin-bottom:15px;">
         <input type="text" id="edit-equipo" placeholder="Nombre Equipo" style="margin-bottom:15px;">
         <div style="display:flex; gap:10px; justify-content:center; margin-top:10px;">
-            <button class="btn-interactivo btn-outline" onclick="cerrarModalPerfil()">Cancelar</button>
+            <button class="btn-interactivo btn-danger" onclick="cerrarModalPerfil()">Cancelar <img src="assets/salir.svg" class="svg-icon" style="margin-left:5px; margin-right:0; width:12px; filter: brightness(0) invert(1);"></button>
             <button class="btn-interactivo" style="color: #121212;" onclick="guardarPerfil()">Guardar <img src="assets/settings.svg" class="svg-icon" style="margin-left:5px; margin-right:0; width:16px;"></button>
         </div>
     </div>
@@ -128,29 +130,28 @@
             <p><strong>5. Sistema de Medallas:</strong><br>
             <img src="assets/francotirador.svg" class="svg-icon" style="width:14px;"> Francotirador (3+ Victorias) | <img src="assets/muralla.svg" class="svg-icon" style="width:14px;"> La Muralla (0 Goles en contra)<br><img src="assets/intocable.svg" class="svg-icon" style="width:14px;"> Intocable (3 Vidas intactas) | <img src="assets/pechofrio.svg" class="svg-icon" style="width:14px;"> Pecho Frío (2+ Derrotas).</p>
         </div>
-        <button class="btn-interactivo" style="width:100%; margin-top:20px; color: #111;" onclick="cerrarModalReglas()">Entendido <img src="assets/reglas.svg" class="svg-icon" style="margin-left:5px; margin-right:0; width:16px;"></button>
+        <button class="btn-interactivo btn-danger" style="width:100%; margin-top:20px;" onclick="cerrarModalReglas()">Entendido <img src="assets/reglas.svg" class="svg-icon" style="margin-left:5px; margin-right:0; width:16px; filter: brightness(0) invert(1);"></button>
     </div>
 
     <div id="modal-calendario" class="modal-bouncy" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:var(--card-bg); padding:30px; border-radius:12px; z-index:1000; border:1px solid var(--accent-color); width: 90%; max-width: 700px; max-height: 85vh; overflow-y: auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
         <h2 style="color:var(--accent-color); text-align:center; margin-top: 0; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;"><img src="assets/calendario.svg" class="svg-icon"> Calendario Completo</h2>
         <div id="calendario-completo-contenido" style="margin-top: 15px;"></div>
-        <button class="btn-interactivo btn-outline" style="width:100%; margin-top:20px;" onclick="cerrarModalCalendario()">Cerrar <img src="assets/salir.svg" class="svg-icon" style="margin-right:0; margin-left:5px; width:12px;"></button>
+        <button class="btn-interactivo btn-danger" style="width:100%; margin-top:20px;" onclick="cerrarModalCalendario()">Cerrar <img src="assets/salir.svg" class="svg-icon" style="margin-right:0; margin-left:5px; width:12px; filter: brightness(0) invert(1);"></button>
     </div>
 
     <div id="modal-espia" class="modal-bouncy" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:var(--card-bg); padding:30px; border-radius:12px; z-index:1000; border:1px solid var(--accent-color); width: 90%; max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
         <h2 id="espia-nombre" style="color:var(--accent-color); text-align:center; margin-top: 0; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;">Picks de Jugador</h2>
         <div id="espia-contenido" style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px; max-height: 300px; overflow-y: auto;"></div>
-        <button class="btn-interactivo btn-outline" style="width:100%; margin-top:20px;" onclick="cerrarModalEspia()">Cerrar <img src="assets/salir.svg" class="svg-icon" style="margin-right:0; margin-left:5px; width:12px;"></button>
+        <button class="btn-interactivo btn-danger" style="width:100%; margin-top:20px;" onclick="cerrarModalEspia()">Cerrar <img src="assets/salir.svg" class="svg-icon" style="margin-right:0; margin-left:5px; width:12px; filter: brightness(0) invert(1);"></button>
     </div>
 
-    <!-- NUEVO CENTRO DE COMANDO ADMIN -->
     <div id="admin-panel" class="admin-panel modal-bouncy" style="display: none;">
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #383838; padding-bottom: 15px; margin-bottom: 20px;">
             <h2 style="margin: 0; color: white; display: flex; align-items: center; gap: 10px;">
                 <img src="assets/admin.svg" class="svg-icon" style="width: 24px; height: 24px;"> Centro de Comando OP
             </h2>
-            <button class="btn-interactivo btn-outline" style="padding: 6px 12px; font-size: 12px;" onclick="document.getElementById('admin-panel').style.display='none'">
-                Cerrar <img src="assets/salir.svg" class="svg-icon" style="margin: 0; width: 12px;">
+            <button class="btn-interactivo btn-danger" style="padding: 6px 12px; font-size: 12px;" onclick="document.getElementById('admin-panel').style.display='none'">
+                Cerrar <img src="assets/salir.svg" class="svg-icon" style="margin: 0; margin-left: 5px; width: 12px; filter: brightness(0) invert(1);">
             </button>
         </div>
         
