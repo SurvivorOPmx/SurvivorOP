@@ -364,10 +364,24 @@ window.enviarMensajeChat = () => {
 };
 
 // ==========================================
-// CONTROLES DE ADMINISTRADOR
+// CONTROLES DE ADMINISTRADOR (SISTEMA SEGURO)
 // ==========================================
-if (sessionStorage.getItem('isAdmin') === 'true') document.getElementById('admin-panel').style.display = 'block';
-window.accesoAdmin = () => { toggleMenu(); if(prompt("Clave de Administrador:") === "OP2026") { document.getElementById('admin-panel').style.display = 'block'; sessionStorage.setItem('isAdmin', 'true'); mostrarToast("Acceso Concedido", "success"); } else mostrarToast("Clave incorrecta.", "error"); };
+const correosAdmin = ["whoiscasta@gmail.com", "enriquepro610@gmail.com", "efrafavel7@gmail.com"]; // Lista de correos autorizados como administradores
+
+window.accesoAdmin = () => { 
+    toggleMenu(); 
+    if (!currentUser) {
+        return mostrarToast("Debes iniciar sesión primero.", "error");
+    }
+    
+    if (correosAdmin.includes(currentUser.email)) { 
+        document.getElementById('admin-panel').style.display = 'block'; 
+        mostrarToast("Acceso Concedido, Admin OP", "success"); 
+    } else { 
+        mostrarToast("Acceso denegado. Solo administradores.", "error"); 
+    } 
+};
+
 window.cambiarJornada = (suma) => { let nuevaJornada = appConfig.jornadaActual + suma; if (nuevaJornada < 1) nuevaJornada = 1; if (nuevaJornada > 8) nuevaJornada = 8; set(ref(db, 'survivor/config/jornadaActual'), nuevaJornada); mostrarToast(`Jornada cambiada a ${nuevaJornada}`, "success"); };
 window.cambiarFase = (fase) => { set(ref(db, 'survivor/config/fase'), fase); mostrarToast(`Fase actualizada.`, "success"); };
 window.agregarJugadorManual = () => { const nombre = document.getElementById('nuevo-jugador-nombre').value; if (!nombre) return mostrarToast("Ingresa un nombre.", "error"); const id = "manual_" + Date.now(); set(ref(db, `survivor/jugadores/${id}`), { id, nombre, equipo: "Invitado", foto: "https://via.placeholder.com/50", vivo: true, vidas: 3, ganados: 0, empatados: 0, perdidos: 0, gf: 0, gc: 0, difGoles: 0, picks: [] }); document.getElementById('nuevo-jugador-nombre').value = ''; mostrarToast("Usuario manual creado.", "success"); };
