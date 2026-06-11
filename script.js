@@ -79,9 +79,23 @@ window.cargarResultadosEnVivo = async () => {
 // ==========================================
 // DICCIONARIOS Y CALENDARIO
 // ==========================================
-const banderas = { "Arabia Saudita": "🇸🇦", "Argelia": "🇩🇿", "Argentina": "🇦🇷", "Australia": "🇦🇺", "Austria": "🇦🇹", "Bélgica": "🇧🇪", "Bosnia y Herzegovina": "🇧🇦", "Brasil": "🇧🇷", "Cabo Verde": "🇨🇻", "Camerún": "🇨🇲", "Canadá": "🇨🇦", "Chile": "🇨🇱", "Colombia": "🇨🇴", "Corea del Sur": "🇰🇷", "Costa de Marfil": "🇨🇮", "Costa Rica": "🇨🇷", "Croacia": "🇭🇷", "Curazao": "🇨🇼", "Dinamarca": "🇩🇰", "Ecuador": "🇪🇨", "Egipto": "🇪🇬", "Escocia": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "España": "🇪🇸", "Estados Unidos": "🇺🇸", "Francia": "🇫🇷", "Gales": "🏴󠁧󠁢󠁷󠁬󠁳󠁿", "Ghana": "🇬🇭", "Haití": "🇭🇹", "Inglaterra": "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "Irak": "🇮🇶", "Irán": "🇮🇷", "Italia": "🇮🇹", "Jamaica": "🇯🇲", "Japón": "🇯🇵", "Jordania": "🇯🇴", "Malí": "🇲🇱", "Marruecos": "🇲🇦", "México": "🇲🇽", "Noruega": "🇳🇴", "Nueva Zelanda": "🇳🇿", "Países Bajos": "🇳🇱", "Panamá": "🇵🇦", "Paraguay": "🇵🇾", "Perú": "🇵🇪", "Polonia": "🇵🇱", "Portugal": "🇵🇹", "Qatar": "🇶🇦", "RD Congo": "🇨🇩", "República Checa": "🇨🇿", "Senegal": "🇸🇳", "Serbia": "🇷🇸", "Sudáfrica": "🇿🇦", "Suecia": "🇸🇪", "Suiza": "🇨🇭", "Túnez": "🇹🇳", "Turquía": "🇹🇷", "Ucrania": "🇺🇦", "Uruguay": "🇺🇾", "Uzbekistán": "🇺🇿", "Venezuela": "🇻🇪" };
+const banderas = { 
+    "Alemania": "🇩🇪", 
+    "Arabia Saudita": "🇸🇦", "Argelia": "🇩🇿", "Argentina": "🇦🇷", "Australia": "🇦🇺", "Austria": "🇦🇹", 
+    "Bélgica": "🇧🇪", "Bolivia": "🇧🇴", "Bosnia y Herzegovina": "🇧🇦", "Brasil": "🇧🇷", "Cabo Verde": "🇨🇻", 
+    "Camerún": "🇨🇲", "Canadá": "🇨🇦", "Chile": "🇨🇱", "Colombia": "🇨🇴", "Corea del Sur": "🇰🇷", 
+    "Costa de Marfil": "🇨🇮", "Costa Rica": "🇨🇷", "Croacia": "🇭🇷", "Curazao": "🇨🇼", "Dinamarca": "🇩🇰", 
+    "Ecuador": "🇪🇨", "Egipto": "🇪🇬", "Escocia": "🏴󠁧󠁢󠁳󠁣󠁴󠁿", "España": "🇪🇸", "Estados Unidos": "🇺🇸", 
+    "Francia": "🇫🇷", "Gales": "🏴󠁧󠁢󠁷󠁬󠁳󠁿", "Ghana": "🇬🇭", "Grecia": "🇬🇷", "Haití": "🇭🇹", "Honduras": "🇭🇳",
+    "Inglaterra": "🏴󠁧󠁢󠁥󠁮󠁧󠁿", "Irak": "🇮🇶", "Irán": "🇮🇷", "Italia": "🇮🇹", "Jamaica": "🇯🇲", "Japón": "🇯🇵", 
+    "Jordania": "🇯🇴", "Malí": "🇲🇱", "Marruecos": "🇲🇦", "México": "🇲🇽", "Nigeria": "🇳🇬", "Noruega": "🇳🇴", 
+    "Nueva Zelanda": "🇳🇿", "Países Bajos": "🇳🇱", "Panamá": "🇵🇦", "Paraguay": "🇵🇾", "Perú": "🇵🇪", 
+    "Polonia": "🇵🇱", "Portugal": "🇵🇹", "Qatar": "🇶🇦", "RD Congo": "🇨🇩", "República Checa": "🇨🇿", 
+    "Senegal": "🇸🇳", "Serbia": "🇷🇸", "Sudáfrica": "🇿🇦", "Suecia": "🇸🇪", "Suiza": "🇨🇭", "Túnez": "🇹🇳", 
+    "Turquía": "🇹🇷", "Ucrania": "🇺🇦", "Uruguay": "🇺🇾", "Uzbekistán": "🇺🇿", "Venezuela": "🇻🇪" 
+};
 const getFlag = (team) => banderas[team] || "🏳️";
-const equiposMundial = Object.keys(banderas).sort();
+const equiposMundial = Object.keys(banderas).sort((a, b) => a.localeCompare(b, 'es'));
 
 const calendarioMundial = [ { j: 1, nombre: "J1: Grupos", fechas: "11 Jun - 17 Jun 2026" }, { j: 2, nombre: "J2: Grupos", fechas: "18 Jun - 23 Jun 2026" }, { j: 3, nombre: "J3: Grupos", fechas: "24 Jun - 27 Jun 2026" }, { j: 4, nombre: "J4: 16vos de Final", fechas: "28 Jun - 03 Jul 2026" }, { j: 5, nombre: "J5: Octavos de Final", fechas: "04 Jul - 07 Jul 2026" }, { j: 6, nombre: "J6: Cuartos de Final", fechas: "09 Jul - 11 Jul 2026" }, { j: 7, nombre: "J7: Semifinales", fechas: "14 Jul - 15 Jul 2026" }, { j: 8, nombre: "J8: Gran Final / 3er", fechas: "18 Jul - 19 Jul 2026" } ];
 
@@ -142,19 +156,28 @@ window.abrirModalCalendario = () => {
     calendarioMundial.forEach(cal => {
         const partidosFiltro = partidosMundial.filter(p => p.j === cal.j);
         let partidosHTML = '';
+        
+        const canPick = (cal.j === appConfig.jornadaActual && appConfig.jornadaAbierta);
+
         partidosFiltro.forEach(p => {
+            let btnPickHtml = '';
+            if (canPick) {
+                btnPickHtml = `<button class="btn-interactivo btn-outline" style="margin-top: 10px; width: 100%; font-size: 12px; padding: 6px; border: 1px solid var(--accent-color); color: var(--accent-color); background: transparent;" onclick="abrirModalPickRapido('${p.local}', '${p.visitante}')">Hacer Pick 🎯</button>`;
+            }
+
             partidosHTML += `
-                <div class="match-compact">
+                <div class="match-compact" style="${canPick ? 'border: 1px solid var(--accent-color); padding-bottom: 10px;' : ''}">
                     <div style="color:var(--text-muted); font-size:10px; margin-bottom:4px;">📅 ${p.fecha} - ${p.hora}</div>
                     <div>${getFlag(p.local)} ${p.local}</div>
                     <div style="font-size:10px; margin:2px 0;">VS</div>
                     <div>${getFlag(p.visitante)} ${p.visitante}</div>
+                    ${btnPickHtml}
                 </div>
             `;
         });
         
         cont.innerHTML += `
-            <details class="jornada-accordion">
+            <details class="jornada-accordion" ${cal.j === appConfig.jornadaActual ? 'open' : ''}>
                 <summary>${cal.nombre} <span style="font-size:11px; float:right; color:var(--text-muted);">${cal.fechas}</span></summary>
                 <div class="acordeon-content">
                     ${partidosHTML}
@@ -335,7 +358,7 @@ function actualizarDashboard() {
                     const disp = clasificados.filter(e => { 
                         if (appConfig.fase === 'eliminatoria') return true; 
                         return !(miJugador.picks || []).includes(e); 
-                    }).sort();
+                    }).sort((a, b) => a.localeCompare(b, 'es'));
                     
                     gridEquipos.innerHTML = '';
                     disp.forEach(e => { gridEquipos.innerHTML += `<div class="team-option" id="team-opt-${e.replace(/\s+/g, '-')}" onclick="seleccionarEquipo('${e}')"><span class="team-flag">${getFlag(e)}</span><span class="team-name">${e}</span></div>`; });
@@ -578,3 +601,51 @@ window.reiniciarLiga = () => {
         mostrarToast("Liga reiniciada.", "warning");
     }
 };
+
+// ==========================================
+// NUEVAS FUNCIONES: PICK RÁPIDO Y TECLA ESCAPE
+// ==========================================
+
+window.abrirModalPickRapido = (local, visitante) => {
+    if (!currentUser) return mostrarToast("Debes iniciar sesión para elegir.", "error");
+    const j = jugadores.find(jug => jug.id === currentUser.uid);
+    if (j && !j.vivo) return mostrarToast("Estás eliminado de la arena.", "error");
+
+    document.getElementById('modal-pick-rapido').style.display = 'block';
+    
+    const btnLocal = document.getElementById('btn-pick-local');
+    const btnVisit = document.getElementById('btn-pick-visitante');
+    
+    btnLocal.innerHTML = `${getFlag(local)} ${local}`;
+    btnLocal.onclick = () => procesarPickRapido(local);
+    
+    btnVisit.innerHTML = `${getFlag(visitante)} ${visitante}`;
+    btnVisit.onclick = () => procesarPickRapido(visitante);
+};
+
+window.cerrarModalPickRapido = () => {
+    document.getElementById('modal-pick-rapido').style.display = 'none';
+};
+
+window.procesarPickRapido = (equipo) => {
+    seleccionarEquipo(equipo); 
+    guardarPickPropio();       
+    cerrarModalPickRapido();
+    cerrarModalCalendario();   
+};
+
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+        if (typeof cerrarModalPerfil === 'function') cerrarModalPerfil();
+        if (typeof cerrarModalReglas === 'function') cerrarModalReglas();
+        if (typeof cerrarModalCalendario === 'function') cerrarModalCalendario();
+        if (typeof cerrarModalEspia === 'function') cerrarModalEspia();
+        if (typeof cerrarModalPickRapido === 'function') cerrarModalPickRapido();
+        
+        const adminPanel = document.getElementById('admin-panel');
+        if (adminPanel) adminPanel.style.display = 'none';
+        
+        const sidebar = document.getElementById('sidebar');
+        if (sidebar && sidebar.classList.contains('open')) toggleMenu();
+    }
+});

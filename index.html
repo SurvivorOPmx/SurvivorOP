@@ -41,7 +41,6 @@
         <img src="assets/sobrevivientes.svg" class="svg-icon" style="width: 18px;"> <span id="num-inscritos">0</span> Sobrevivientes en la Arena
     </div>
 
-    <!-- TABLÓN DE AVISOS (NEWS TICKER) -->
     <div id="news-ticker" style="display: none; background: #ff9800; color: #111; padding: 10px 15px; border-radius: 8px; font-size: 14px; font-weight: bold; margin: 0 auto 20px auto; max-width: 90%; text-align: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 2px solid #e65100; animation: popIn 0.5s ease;">
         <img src="assets/noticias.svg" class="svg-icon" style="width:18px; vertical-align: middle; margin-right: 5px;"> <span id="news-text"></span>
     </div>
@@ -101,11 +100,9 @@
         </div>
     </div>
 
-    <!-- SECCIÓN 1: SOBREVIVIENTES ACTIVOS -->
     <h3 style="text-align: center; color: var(--text-color); margin-top: 40px; margin-bottom: 10px;"><img src="assets/estrategia.svg" class="svg-icon"> Sobrevivientes en Pie</h3>
     <div id="dashboard" class="dashboard"></div>
 
-    <!-- SECCIÓN 2: EL CEMENTERIO (LOS ELIMINADOS) -->
     <h3 style="text-align: center; color: var(--text-muted); margin-top: 40px; margin-bottom: 10px; border-top: 1px dashed var(--border-color); padding-top: 20px;"><img src="assets/cementerio.svg" class="svg-icon" style="filter: grayscale(100%);"> El Cementerio</h3>
     <div id="cementerio-container" class="dashboard" style="background: var(--card-bg); padding: 15px; border-radius: 12px; border: 1px solid var(--border-color); min-height: 100px;">
         <p style="text-align:center; color: var(--text-muted); width:100%;">Aún no hay caídos en batalla...</p>
@@ -161,7 +158,6 @@
         <button class="btn-interactivo btn-danger" style="width:100%; margin-top:20px;" onclick="cerrarModalEspia()">Cerrar <img src="assets/salir.svg" class="svg-icon" style="margin-right:0; margin-left:5px; width:12px; filter: brightness(0) invert(1);"></button>
     </div>
 
-    <!-- CENTRO DE COMANDO ADMIN -->
     <div id="admin-panel" class="admin-panel modal-bouncy" style="display: none;">
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #383838; padding-bottom: 15px; margin-bottom: 20px;">
             <h2 style="margin: 0; color: white; display: flex; align-items: center; gap: 10px;">
@@ -270,8 +266,7 @@
             <h3 style="color: #deff9a;">🌍 Filtro de Equipos Clasificados</h3>
             <p style="color: #aaa; font-size: 12px; margin-top:0;">Desactiva los interruptores de los países eliminados del mundial. Tómate tu tiempo y presiona Guardar cuando termines.</p>
             <div id="admin-equipos-filtro" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; max-height: 300px; overflow-y: auto; background: #1e1e1e; padding: 15px; border-radius: 8px; border: 1px solid #333; margin-bottom: 15px;">
-                <!-- Aquí se llenan los Toggles por JS -->
-            </div>
+                </div>
             <button class="btn-interactivo" style="background: #4CAF50; color: white; width: 100%; padding: 12px; font-size: 16px;" onclick="guardarEquiposClasificados()">
                 Guardar Equipos Clasificados 💾
             </button>
@@ -285,6 +280,19 @@
                 REINICIAR LIGA <img src="assets/refresh.svg" class="svg-icon" style="width:16px; filter:brightness(0) invert(1); margin-left:5px; margin-right:0;">
             </button>
         </div>
+    </div>
+
+    <div id="modal-pick-rapido" class="modal-bouncy" style="display:none; position:fixed; top:50%; left:50%; transform:translate(-50%, -50%); background:var(--card-bg); padding:30px; border-radius:12px; z-index:1005; border:1px solid var(--accent-color); width: 90%; max-width: 350px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.8);">
+        <h2 style="color:var(--accent-color); margin-top: 0; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;"><img src="assets/elige.svg" class="svg-icon"> Elige tu Pick</h2>
+        <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">¿Quién ganará este partido?</p>
+        
+        <div style="display: flex; flex-direction: column; gap: 15px;">
+            <button id="btn-pick-local" class="btn-interactivo" style="font-size: 16px; padding: 12px; border: 2px solid var(--border-color); background: var(--input-bg);"></button>
+            <div style="color: var(--text-muted); font-size: 12px; font-weight: bold;">VS</div>
+            <button id="btn-pick-visitante" class="btn-interactivo" style="font-size: 16px; padding: 12px; border: 2px solid var(--border-color); background: var(--input-bg);"></button>
+        </div>
+        
+        <button class="btn-interactivo btn-danger" style="width:100%; margin-top:20px;" onclick="cerrarModalPickRapido()">Cancelar</button>
     </div>
 
     <div id="toast-container"></div>
