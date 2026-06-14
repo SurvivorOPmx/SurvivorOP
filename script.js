@@ -32,51 +32,6 @@ window.mostrarToast = (mensaje, tipo = "success") => {
 };
 
 // ==========================================
-// RESULTADOS EN VIVO (API-FOOTBALL)
-// ==========================================
-window.cargarResultadosEnVivo = async () => {
-    const apiKey = '035d212fdbad14cc398005179057f350'; 
-   const url = 'https://v3.football.api-sports.io/fixtures?live=all&league=1&season=2026';
-    const list = document.getElementById('live-scores-list');
-    
-    list.innerHTML = '<p style="text-align:center;">Conectando con API-Football...</p>';
-
-    try {
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'x-rapidapi-host': 'v3.football.api-sports.io',
-                'x-rapidapi-key': apiKey
-            }
-        });
-        const data = await response.json();
-        
-        list.innerHTML = ''; // Limpiamos
-
-        if(data.response && data.response.length > 0) {
-            data.response.forEach(m => {
-                const home = m.teams.home.name;
-                const away = m.teams.away.name;
-                const goalsHome = m.goals.home ?? 0;
-                const goalsAway = m.goals.away ?? 0;
-                
-                list.innerHTML += `
-                    <div class="live-match">
-                        <div class="live-status"><img src="assets/live.svg" class="svg-icon" style="width:14px; margin-right:4px;"> En Vivo</div>
-                        <div class="live-teams">${home} <b>${goalsHome}</b> - <b>${goalsAway}</b> ${away}</div>
-                    </div>
-                `;
-            });
-        } else {
-            list.innerHTML = '<p style="text-align:center; font-size:14px; color:var(--text-muted);">No hay partidos en vivo ahora mismo.</p>';
-        }
-    } catch(error) {
-        console.error("Error:", error);
-        list.innerHTML = '<p style="color:red; text-align:center;">Error de conexión API.</p>';
-    }
-};
-
-// ==========================================
 // DICCIONARIOS Y CALENDARIO
 // ==========================================
 const banderas = { 
@@ -111,6 +66,7 @@ const partidosMundial = [
 ];
 
 let jugadores = [];
+let marcadoresEnVivo = {};
 let currentUser = null;
 let appConfig = { jornadaActual: 1, fase: 'grupos', equiposClasificados: equiposMundial, jornadaAbierta: true, mensajeAviso: "" };
 
@@ -225,6 +181,12 @@ onValue(ref(db, 'survivor/config'), (snapshot) => {
 
 onValue(ref(db, 'survivor/jugadores'), (snapshot) => { jugadores = snapshot.val() ? Object.values(snapshot.val()) : []; actualizarTodo(); });
 
+// Sincronización en vivo de los goles simulados
+onValue(ref(db, 'survivor/marcadores'), (snapshot) => {
+    marcadoresEnVivo = snapshot.val() ? snapshot.val() : {};
+    if (typeof window.cargarResultadosEnVivo === 'function') window.cargarResultadosEnVivo();
+});
+
 function renderizarCalendario() {
     const elInscritos = document.getElementById('num-inscritos');
     if (elInscritos) elInscritos.textContent = jugadores.length;
@@ -308,7 +270,7 @@ window.guardarPickPropio = () => {
         if ((j.picks || []).includes(equipo)) return mostrarToast("¡Ya usaste a este equipo!", "error");
         lanzarConfeti(); mostrarToast(`Pick confirmado.`, "success");
     }
-    j.picks = [...(j.picks || []), equipo]; set(ref(db, `survivor/jugadores/${currentUser.uid}`), j);
+    j.picks = [...(j.picks || []), equipo]; set(ref(db, `survivor/jugadores/${user.uid}`), j);
 };
 
 function generarBadges(j) {
@@ -394,7 +356,6 @@ function actualizarDashboard() {
         tablaHTML += '</tbody>'; tablaPosiciones.innerHTML = tablaHTML;
     } else if (tablaContainer) { tablaContainer.style.display = 'none'; }
 
-    // DIBUJO DE TARJETAS (VIVOS VS CEMENTERIO CORREGIDO PARA TEMA CLARO/OSCURO)
     const cementerio = document.getElementById('cementerio-container');
     if (cementerio) cementerio.innerHTML = '';
     let hayMuertos = false;
@@ -452,12 +413,48 @@ function actualizarDashboard() {
 }
 
 function cargarSelectsAdmin() {
-    const sJugador = document.getElementById('select-jugador'); const sJugadorVidas = document.getElementById('select-jugador-vidas');
-    const sEliminar = document.getElementById('select-jugador-eliminar'); const sEquipo = document.getElementById('select-equipo');
-    if(!sJugador || !sJugadorVidas || !sEliminar || !sEquipo) return;
-    sJugador.innerHTML = sJugadorVidas.innerHTML = sEliminar.innerHTML = '<option value="">Selecciona un jugador...</option>';
-    jugadores.forEach(j => { const opt = `<option value="${j.id}">${j.nombre}</option>`; sJugador.innerHTML += opt; sJugadorVidas.innerHTML += opt; sEliminar.innerHTML += opt; });
-    sEquipo.innerHTML = '<option value="">Selecciona Equipo...</option>'; equiposMundial.forEach(e => sEquipo.innerHTML += `<option value="${e}">${getFlag(e)} ${e}</option>`);
+    // 1. Llenar jugadores
+    const sJugador = document.getElementById('select-jugador'); 
+    const sJugadorVidas = document.getElementById('select-jugador-vidas');
+    const sEliminar = document.getElementById('select-jugador-eliminar'); 
+    
+    if (sJugador && sJugadorVidas && sEliminar) {
+        sJugador.innerHTML = sJugadorVidas.innerHTML = sEliminar.innerHTML = '<option value="">Selecciona un jugador...</option>';
+        jugadores.forEach(j => { 
+            const opt = `<option value="${j.id}">${j.nombre}</option>`; 
+            sJugador.innerHTML += opt; 
+            sJugadorVidas.innerHTML += opt; 
+            sEliminar.innerHTML += opt; 
+        });
+    }
+    
+    // 2. Llenar equipos
+    const sEquipo = document.getElementById('select-equipo');
+    if (sEquipo) {
+        sEquipo.innerHTML = '<option value="">Selecciona Equipo...</option>'; 
+        equiposMundial.forEach(e => sEquipo.innerHTML += `<option value="${e}">${getFlag(e)} ${e}</option>`);
+    }
+
+    // 3. Llenar partidos de la Jornada (BLINDADO)
+    const sPartidoActivo = document.getElementById('select-partido-activo');
+    if (sPartidoActivo) {
+        // Forzamos a que la jornada sea un número exacto
+        const jornadaNum = parseInt(appConfig.jornadaActual) || 1; 
+        
+        // Usamos == en lugar de === por si las dudas, y filtramos
+        const partidosDeLaJornada = partidosMundial.filter(p => p.j == jornadaNum);
+        
+        sPartidoActivo.innerHTML = '<option value="">Selecciona un partido de la jornada...</option>';
+        
+        if (partidosDeLaJornada.length === 0) {
+            sPartidoActivo.innerHTML += `<option value="">⚠️ Error: No hay partidos en J${jornadaNum}</option>`;
+        } else {
+            partidosDeLaJornada.forEach(p => {
+                const key = `${p.local}_${p.visitante}`.replace(/\s+/g, '-');
+                sPartidoActivo.innerHTML += `<option value="${key}">${getFlag(p.local)} ${p.local} vs ${getFlag(p.visitante)} ${p.visitante} (${p.fecha})</option>`;
+            });
+        }
+    }
 }
 
 // CHAT EN TIEMPO REAL
@@ -481,7 +478,7 @@ window.enviarMensajeChat = () => {
 // ==========================================
 // CONTROLES DE ADMINISTRADOR (SISTEMA SEGURO)
 // ==========================================
-const correosAdmin = ["whoiscasta@gmail.com", "correo.de.pillin@gmail.com", "correo.de.chapa@gmail.com"]; 
+const correosAdmin = ["whoiscasta@gmail.com", "Efrafavel7@gmail.com", "enriquepro610@gmail.com"]; 
 
 window.accesoAdmin = () => { 
     toggleMenu(); 
@@ -597,15 +594,36 @@ window.reiniciarLiga = () => {
         jugadores.forEach(j => { set(ref(db, `survivor/jugadores/${j.id}`), {...j, vivo:true, vidas:3, ganados:0, empatados:0, perdidos:0, gf:0, gc:0, difGoles:0, picks:[]}); }); 
         set(ref(db, 'survivor/config'), {jornadaActual: 1, fase: 'grupos', equiposClasificados: equiposMundial, jornadaAbierta: true, mensajeAviso: ""}); 
         remove(ref(db, 'survivor/chat')); 
+        remove(ref(db, 'survivor/marcadores')); 
         filtroFijo = false; 
         mostrarToast("Liga reiniciada.", "warning");
     }
 };
 
 // ==========================================
-// NUEVAS FUNCIONES: PICK RÁPIDO Y TECLA ESCAPE
+// NUEVAS FUNCIONES: GUARDAR GOLES EN VIVO SIMULADOS
 // ==========================================
+window.guardarMarcadorVivo = () => {
+    const key = document.getElementById('select-partido-activo').value;
+    const golL = document.getElementById('goles-local-vivo').value;
+    const golV = document.getElementById('goles-visitante-vivo').value;
+    
+    if (!key) return mostrarToast("Selecciona un partido primero.", "error");
+    if (golL === "" || golV === "") return mostrarToast("Ingresa los goles de ambos equipos.", "error");
+    
+    set(ref(db, `survivor/marcadores/${key}`), {
+        golesLocal: parseInt(golL),
+        golesVisitante: parseInt(golV)
+    }).then(() => {
+        mostrarToast("Marcador actualizado en vivo en la arena.", "success");
+        document.getElementById('goles-local-vivo').value = '';
+        document.getElementById('goles-visitante-vivo').value = '';
+    });
+};
 
+// ==========================================
+// FUNCIONES DE INTERFAZ: PICK RÁPIDO Y ESCAPE
+// ==========================================
 window.abrirModalPickRapido = (local, visitante) => {
     if (!currentUser) return mostrarToast("Debes iniciar sesión para elegir.", "error");
     const j = jugadores.find(jug => jug.id === currentUser.uid);
@@ -649,3 +667,70 @@ document.addEventListener('keydown', (event) => {
         if (sidebar && sidebar.classList.contains('open')) toggleMenu();
     }
 });
+
+// Cierre de modales al hacer clic en el fondo oscuro
+window.cerrarModalesConClick = () => {
+    if (typeof cerrarModalPerfil === 'function') cerrarModalPerfil();
+    if (typeof cerrarModalReglas === 'function') cerrarModalReglas();
+    if (typeof cerrarModalCalendario === 'function') cerrarModalCalendario();
+    if (typeof cerrarModalEspia === 'function') cerrarModalEspia();
+    if (typeof cerrarModalPickRapido === 'function') cerrarModalPickRapido();
+};
+
+// ==========================================
+// CARTELERA INFORMATIVA E HÍBRIDA DEL DÍA
+// ==========================================
+window.cargarResultadosEnVivo = async () => {
+    const list = document.getElementById('live-scores-list');
+    if (!list) return;
+    
+    const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+    const fechaHoy = new Date();
+    const textoHoy = `${fechaHoy.getDate()} de ${meses[fechaHoy.getMonth()]}`;
+    const partidosDeHoy = partidosMundial.filter(p => p.fecha === textoHoy);
+
+    list.innerHTML = ''; 
+
+    if(partidosDeHoy.length > 0) {
+        partidosDeHoy.forEach(p => {
+            const key = `${p.local}_${p.visitante}`.replace(/\s+/g, '-');
+            const marcadorGuardado = marcadoresEnVivo[key];
+            
+            const horaPartido = parseInt(p.hora.split(':')[0]);
+            const horaActual = fechaHoy.getHours();
+            
+            let statusLabel = '';
+            let defaultGoles = '-';
+            
+            if (horaActual < horaPartido) {
+                statusLabel = `<span style="color:#ff9800;">⏱️ Hoy a las ${p.hora}</span>`;
+                defaultGoles = '-'; 
+            } else if (horaActual === horaPartido || horaActual === horaPartido + 1) {
+                statusLabel = `<span style="color:#deff9a; font-weight:bold;"><img src="assets/live.svg" class="svg-icon" style="width:14px; margin-right:4px;"> En Juego</span>`;
+                defaultGoles = '0'; 
+            } else {
+                statusLabel = `<span style="color:var(--text-muted);">Finalizado</span>`;
+                defaultGoles = '0'; 
+            }
+            
+            // Si tú ya metiste goles en Firebase se usan esos, si no, usa el default inteligente (0 o -)
+            const golesLocal = (marcadorGuardado && marcadorGuardado.golesLocal !== undefined) ? marcadorGuardado.golesLocal : defaultGoles;
+            const golesVisitante = (marcadorGuardado && marcadorGuardado.golesVisitante !== undefined) ? marcadorGuardado.golesVisitante : defaultGoles;
+
+            list.innerHTML += `
+                <div class="live-match" style="border: 1px solid var(--border-color); background: var(--input-bg); padding: 12px; margin-bottom: 12px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+                    <div class="live-status" style="margin-bottom: 8px; border-bottom: 1px dashed var(--border-color); padding-bottom: 6px; font-size: 12px;">${statusLabel}</div>
+                    <div class="live-teams" style="display:flex; justify-content:space-between; align-items: center; font-size: 15px; font-weight: bold;">
+                        <span style="flex: 1; text-align: right; padding-right: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${p.local} ${getFlag(p.local)}</span>
+                        <span style="background: #111; padding: 4px 14px; border-radius: 4px; border: 1px solid var(--border-color); font-size: 16px; color: var(--accent-color); font-family: monospace; letter-spacing: 2px;">
+                            ${golesLocal}:${golesVisitante}
+                        </span>
+                        <span style="flex: 1; text-align: left; padding-left: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">${getFlag(p.visitante)} ${p.visitante}</span>
+                    </div>
+                </div>
+            `;
+        });
+    } else {
+        list.innerHTML = `<p style="text-align:center; font-size:14px; color:var(--text-muted);">Hoy (${textoHoy}) hay descanso en la arena. Aprovechen para planear estrategias.</p>`;
+    }
+};
