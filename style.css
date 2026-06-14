@@ -339,3 +339,75 @@ input:checked + .slider:before {
   border-radius: 8px;
   border: 1px solid #444;
 }
+/* ==========================================
+   📱 AJUSTES PARA CELULAR (MODO SUPERVIVENCIA)
+   ========================================== */
+@media (max-width: 768px) {
+    /* Ajuste de textos generales */
+    h1 { font-size: 1.5rem !important; }
+    h2, h3 { font-size: 1.2rem !important; }
+    .status-banner { font-size: 12px !important; padding: 8px !important; }
+
+    /* Botones de la esquina superior derecha (Google / Perfil) */
+    div[style*="position: absolute; top: 15px; right: 15px"] {
+        top: 10px !important;
+        right: 10px !important;
+        flex-direction: column !important; /* Los apila uno sobre otro */
+        gap: 5px !important;
+    }
+    .btn-interactivo { font-size: 12px !important; padding: 8px !important; }
+
+    /* Cuadrícula de Picks (Equipos a elegir) */
+    .team-grid {
+        grid-template-columns: repeat(2, 1fr) !important; /* Obliga a que sean 2 columnas exactas */
+        gap: 8px !important;
+    }
+    .team-option { padding: 10px 5px !important; }
+    .team-flag { font-size: 24px !important; }
+
+    /* Modales (Calendario, Reglas, Perfil) */
+    .modal-bouncy {
+        width: 95% !important;
+        padding: 15px !important;
+        max-height: 90vh !important;
+    }
+
+    /* Tabla General (Para que no rompa la pantalla y se pueda scrollear de ladito) */
+    .table-responsive {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+    }
+    .tabla-posiciones { font-size: 11px !important; white-space: nowrap; }
+    .tabla-posiciones img.svg-icon { width: 12px !important; margin: 0 1px !important; }
+    .td-jugador img { width: 24px !important; height: 24px !important; }
+
+    /* Cartelera de Partidos en Vivo */
+    .live-match { padding: 10px !important; }
+    .live-teams {
+        flex-direction: column !important; /* Apila Equipo 1, Marcador y Equipo 2 */
+        gap: 8px;
+        text-align: center;
+    }
+    .live-teams span { width: 100% !important; text-align: center !important; padding: 0 !important; }
+
+    /* Tarjetas de Sobrevivientes y Cementerio */
+    .card { padding: 10px !important; }
+    .card-header h3 { font-size: 14px !important; }
+    .avatar-img { width: 35px !important; height: 35px !important; }
+    .vidas-container img { width: 14px !important; }
+
+    /* Panel de Admin OP */
+    .admin-section { padding: 10px !important; }
+    .admin-section > div { flex-direction: column !important; align-items: stretch !important; }
+    .admin-section input, .admin-section select, .admin-section button { 
+        width: 100% !important; 
+        margin-bottom: 8px; 
+    }
+    
+    /* Contador de inscritos y Ticker de noticias */
+    #contador-inscritos { width: 90% !important; font-size: 13px !important; }
+    #news-ticker { font-size: 12px !important; padding: 8px !important; }
+}
