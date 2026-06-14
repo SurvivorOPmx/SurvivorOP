@@ -165,6 +165,7 @@ function actualizarTodo() {
     cargarSelectsAdmin(); 
     renderizarFiltroEquiposAdmin(); 
     renderizarComunicacionAdmin(); 
+    calcularYMostrarResumenJornada(); 
 }
 
 onValue(ref(db, 'survivor/config'), (snapshot) => { 
@@ -181,7 +182,6 @@ onValue(ref(db, 'survivor/config'), (snapshot) => {
 
 onValue(ref(db, 'survivor/jugadores'), (snapshot) => { jugadores = snapshot.val() ? Object.values(snapshot.val()) : []; actualizarTodo(); });
 
-// Sincronización en vivo de los goles simulados
 onValue(ref(db, 'survivor/marcadores'), (snapshot) => {
     marcadoresEnVivo = snapshot.val() ? snapshot.val() : {};
     if (typeof window.cargarResultadosEnVivo === 'function') window.cargarResultadosEnVivo();
@@ -197,7 +197,6 @@ function renderizarCalendario() {
     const adminTexto = document.getElementById('admin-jornada-text'); if (adminTexto) adminTexto.textContent = `JORNADA ${appConfig.jornadaActual}`;
     const selectFase = document.getElementById('select-fase-admin'); if (selectFase) selectFase.value = appConfig.fase;
     
-    // TABLÓN DE AVISOS
     const newsTicker = document.getElementById('news-ticker');
     const newsText = document.getElementById('news-text');
     if (newsTicker && newsText) {
@@ -217,6 +216,124 @@ function renderizarCalendario() {
             divCalendario.innerHTML += `<div class="${clase}"><span style="font-weight:bold;">${c.nombre}</span><span style="font-size:12px; opacity:0.8;">${c.fechas}</span></div>`;
         });
     }
+}
+
+// ==========================================
+// NUEVA FUNCIÓN: GENERADOR DE SURVIVOR NEWS
+// ==========================================
+function calcularYMostrarResumenJornada() {
+    const container = document.getElementById('survivor-news-container');
+    const content = document.getElementById('survivor-news-content');
+    
+    if (!container || !content) return;
+    
+    const jornadaNum = parseInt(appConfig.jornadaActual) || 1;
+    
+    if (jornadaNum <= 1 || jugadores.length === 0) {
+        container.style.display = 'none';
+        return;
+    }
+    
+    container.style.display = 'block';
+    const jAnterior = jornadaNum - 1;
+    
+    let totalVidasPerdidas = 0;
+    let caidosList = [];
+    let conteoPicks = {};
+    
+    let mvpNombre = "Nadie";
+    let maxGolesFavor = -1;
+    let maxGolesFavorEquipo = "";
+    
+    let pechoFrioNombre = "Nadie";
+    let maxGolesContra = -1;
+    let maxGolesContraEquipo = "";
+
+    jugadores.forEach(j => {
+        const pickAnterior = j.picks ? j.picks[jAnterior - 1] : null;
+        
+        if (pickAnterior) {
+            conteoPicks[pickAnterior] = (conteoPicks[pickAnterior] || 0) + 1;
+            
+            Object.keys(marcadoresEnVivo).forEach(key => {
+                const equipos = key.replace(/-/g, ' ').split('_'); 
+                const loc = equipos[0];
+                const vis = equipos[1];
+                
+                if (loc === pickAnterior || vis === pickAnterior) {
+                    const m = marcadoresEnVivo[key];
+                    if (m && m.golesLocal !== undefined && m.golesVisitante !== undefined) {
+                        const gf = (loc === pickAnterior) ? m.golesLocal : m.golesVisitante;
+                        const gc = (loc === pickAnterior) ? m.golesVisitante : m.golesLocal;
+                        
+                        if (gf <= gc) {
+                            totalVidasPerdidas++;
+                            if (!caidosList.includes(j.nombre)) caidosList.push(j.nombre);
+                        }
+                        
+                        if (gf > maxGolesFavor) {
+                            maxGolesFavor = gf;
+                            mvpNombre = j.nombre;
+                            maxGolesFavorEquipo = pickAnterior;
+                        }
+                        if (gc > maxGolesContra) {
+                            maxGolesContra = gc;
+                            pechoFrioNombre = j.nombre;
+                            maxGolesContraEquipo = pickAnterior;
+                        }
+                    }
+                }
+            });
+        }
+    });
+
+    let equipoMasVotado = "Ninguno";
+    let maxVotos = 0;
+    Object.keys(conteoPicks).forEach(eq => {
+        if (conteoPicks[eq] > maxVotos) {
+            maxVotos = conteoPicks[eq];
+            equipoMasVotado = eq;
+        }
+    });
+
+    let htmlNews = `<p style="margin-top: 0; text-align:center; font-style: italic; color: var(--text-muted);">Crónica de la sangrienta Jornada ${jAnterior}</p>`;
+    
+    htmlNews += `<div style="background: rgba(255,255,255,0.03); padding: 12px; border-radius: 8px; margin-bottom: 12px; border-left: 3px solid #d32f2f;">`;
+    htmlNews += `<strong style="color: #ff5252; font-size: 14px;">📉 Reporte de Bajas:</strong><br>`;
+    if (caidosList.length > 0) {
+        htmlNews += `La jornada pasada se cobró un total de <b style="color:white;">${totalVidasPerdidas} vidas</b>. Los sobrevivientes que tropezaron y sufrieron heridas en la arena fueron: <span style="color:#deff9a; font-weight:bold;">${caidosList.join(', ')}</span>. ¡A cuidar las vidas que se agotan!`;
+    } else {
+        htmlNews += `¡Increíble! Una jornada pacífica en la arena OP. Nadie perdió vidas en la ronda anterior. Todos leyeron el juego a la perfección.`;
+    }
+    htmlNews += `</div>`;
+
+    htmlNews += `<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;">`;
+    
+    htmlNews += `<div style="background: rgba(46, 125, 50, 0.1); padding: 10px; border-radius: 8px; border: 1px solid #2e7d32; text-align: center;">`;
+    htmlNews += `<span style="font-size: 18px;">👑</span><br><strong style="color: #4CAF50; font-size: 13px;">MVP de la Ronda</strong><br>`;
+    if (maxGolesFavor > -1) {
+        htmlNews += `<b style="color:white;">${mvpNombre}</b><br><span style="font-size:11px; color:var(--text-muted);">Confiando en ${getFlag(maxGolesFavorEquipo)} ${maxGolesFavorEquipo} (${maxGolesFavor} GF)</span>`;
+    } else {
+        htmlNews += `<span style="font-size:12px; color:var(--text-muted);">Sin goles guardados</span>`;
+    }
+    htmlNews += `</div>`;
+
+    htmlNews += `<div style="background: rgba(211, 47, 47, 0.1); padding: 10px; border-radius: 8px; border: 1px solid #d32f2f; text-align: center;">`;
+    htmlNews += `<span style="font-size: 18px;">🥶</span><br><strong style="color: #ff5252; font-size: 13px;">Pecho Frío</strong><br>`;
+    if (maxGolesContra > -1) {
+        htmlNews += `<b style="color:white;">${pechoFrioNombre}</b><br><span style="font-size:11px; color:var(--text-muted);">Sufriendo con ${getFlag(maxGolesContraEquipo)} ${maxGolesContraEquipo} (${maxGolesContra} GC)</span>`;
+    } else {
+        htmlNews += `<span style="font-size:12px; color:var(--text-muted);">Sin goles guardados</span>`;
+    }
+    htmlNews += `</div>`;
+    
+    htmlNews += `</div>`;
+
+    htmlNews += `<div style="background: rgba(255, 255, 255, 0.03); padding: 10px; border-radius: 8px; border-left: 3px solid #ff9800; font-size: 13px;">`;
+    htmlNews += `🐑 <strong style="color: #ff9800;">Efecto Oveja:</strong> El equipo más seleccionado por el grupo en la jornada pasada fue <span style="font-weight:bold; color: white;">${getFlag(equipoMasVotado)} ${equipoMasVotado}</span> con un total de <b>${maxVotos} votos</b>. Irse con la mayoría ${totalVidasPerdidas > maxVotos ? 'salió caro esta vez 💀' : 'fue una decisión segura y sabia ✔️'}.`;
+    htmlNews += `</div>`;
+
+    content.innerHTML = htmlNews;
 }
 
 // AUTENTICACIÓN
@@ -270,7 +387,7 @@ window.guardarPickPropio = () => {
         if ((j.picks || []).includes(equipo)) return mostrarToast("¡Ya usaste a este equipo!", "error");
         lanzarConfeti(); mostrarToast(`Pick confirmado.`, "success");
     }
-    j.picks = [...(j.picks || []), equipo]; set(ref(db, `survivor/jugadores/${user.uid}`), j);
+    j.picks = [...(j.picks || []), equipo]; set(ref(db, `survivor/jugadores/${currentUser.uid}`), j);
 };
 
 function generarBadges(j) {
@@ -412,36 +529,57 @@ function actualizarDashboard() {
     }
 }
 
+// ==========================================
+// CONTROLES DE ADMINISTRADOR (SISTEMA SEGURO)
+// ==========================================
+// Ponemos todos estrictamente en minúsculas para que no haya fallas
+const correosAdmin = ["whoiscasta@gmail.com", "efrafavel7@gmail.com", "enriquepro610@gmail.com"]; 
+
+window.accesoAdmin = () => { 
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar && sidebar.classList.contains('open')) {
+        toggleMenu(); 
+    }
+
+    if (!currentUser) {
+        return mostrarToast("Debes iniciar sesión primero.", "error");
+    }
+    
+    const miCorreo = currentUser.email ? currentUser.email.toLowerCase() : "";
+
+    if (correosAdmin.includes(miCorreo)) { 
+        document.getElementById('admin-panel').style.display = 'block'; 
+        mostrarToast("Acceso Concedido, Admin OP", "success"); 
+    } else { 
+        mostrarToast(`Acceso denegado para: ${miCorreo}`, "error"); 
+    } 
+};
+
 function cargarSelectsAdmin() {
-    // 1. Llenar jugadores
     const sJugador = document.getElementById('select-jugador'); 
     const sJugadorVidas = document.getElementById('select-jugador-vidas');
     const sEliminar = document.getElementById('select-jugador-eliminar'); 
     
-    if (sJugador && sJugadorVidas && sEliminar) {
-        sJugador.innerHTML = sJugadorVidas.innerHTML = sEliminar.innerHTML = '<option value="">Selecciona un jugador...</option>';
-        jugadores.forEach(j => { 
-            const opt = `<option value="${j.id}">${j.nombre}</option>`; 
-            sJugador.innerHTML += opt; 
-            sJugadorVidas.innerHTML += opt; 
-            sEliminar.innerHTML += opt; 
-        });
-    }
+    if (sJugador) sJugador.innerHTML = '<option value="">Selecciona un jugador...</option>';
+    if (sJugadorVidas) sJugadorVidas.innerHTML = '<option value="">Selecciona un jugador...</option>';
+    if (sEliminar) sEliminar.innerHTML = '<option value="">Selecciona un jugador...</option>';
+
+    jugadores.forEach(j => { 
+        const opt = `<option value="${j.id}">${j.nombre}</option>`; 
+        if (sJugador) sJugador.innerHTML += opt; 
+        if (sJugadorVidas) sJugadorVidas.innerHTML += opt; 
+        if (sEliminar) sEliminar.innerHTML += opt; 
+    });
     
-    // 2. Llenar equipos
     const sEquipo = document.getElementById('select-equipo');
     if (sEquipo) {
         sEquipo.innerHTML = '<option value="">Selecciona Equipo...</option>'; 
         equiposMundial.forEach(e => sEquipo.innerHTML += `<option value="${e}">${getFlag(e)} ${e}</option>`);
     }
 
-    // 3. Llenar partidos de la Jornada (BLINDADO)
     const sPartidoActivo = document.getElementById('select-partido-activo');
     if (sPartidoActivo) {
-        // Forzamos a que la jornada sea un número exacto
         const jornadaNum = parseInt(appConfig.jornadaActual) || 1; 
-        
-        // Usamos == en lugar de === por si las dudas, y filtramos
         const partidosDeLaJornada = partidosMundial.filter(p => p.j == jornadaNum);
         
         sPartidoActivo.innerHTML = '<option value="">Selecciona un partido de la jornada...</option>';
@@ -473,25 +611,6 @@ window.enviarMensajeChat = () => {
     if (!currentUser) return alert("Inicia sesión."); const input = document.getElementById('chat-input'); const texto = input.value.trim(); if (!texto) return;
     const j = jugadores.find(jug => jug.id === currentUser.uid); const nombreDisplay = j ? j.nombre : currentUser.displayName;
     push(ref(db, 'survivor/chat'), { autor: nombreDisplay, foto: currentUser.photoURL, texto: texto, timestamp: Date.now() }); input.value = '';
-};
-
-// ==========================================
-// CONTROLES DE ADMINISTRADOR (SISTEMA SEGURO)
-// ==========================================
-const correosAdmin = ["whoiscasta@gmail.com", "Efrafavel7@gmail.com", "enriquepro610@gmail.com"]; 
-
-window.accesoAdmin = () => { 
-    toggleMenu(); 
-    if (!currentUser) {
-        return mostrarToast("Debes iniciar sesión primero.", "error");
-    }
-    
-    if (correosAdmin.includes(currentUser.email)) { 
-        document.getElementById('admin-panel').style.display = 'block'; 
-        mostrarToast("Acceso Concedido, Admin OP", "success"); 
-    } else { 
-        mostrarToast("Acceso denegado. Solo administradores.", "error"); 
-    } 
 };
 
 window.renderizarComunicacionAdmin = () => {
@@ -561,7 +680,6 @@ window.cambiarJornada = (suma) => { let nuevaJornada = appConfig.jornadaActual +
 window.cambiarFase = (fase) => { set(ref(db, 'survivor/config/fase'), fase); mostrarToast(`Fase actualizada.`, "success"); };
 window.agregarJugadorManual = () => { const nombre = document.getElementById('nuevo-jugador-nombre').value; if (!nombre) return mostrarToast("Ingresa un nombre.", "error"); const id = "manual_" + Date.now(); set(ref(db, `survivor/jugadores/${id}`), { id, nombre, equipo: "Invitado", foto: "https://via.placeholder.com/50", vivo: true, vidas: 3, ganados: 0, empatados: 0, perdidos: 0, gf: 0, gc: 0, difGoles: 0, picks: [] }); document.getElementById('nuevo-jugador-nombre').value = ''; mostrarToast("Usuario manual creado.", "success"); };
 window.eliminarUsuario = () => { const id = document.getElementById('select-jugador-eliminar').value; if(!id) return mostrarToast("Selecciona usuario.", "error"); if(confirm("¿Eliminar usuario?")) { remove(ref(db, `survivor/jugadores/${id}`)); mostrarToast("Usuario eliminado.", "warning"); } };
-window.registrarPick = () => { const id = document.getElementById('select-jugador').value; const equipo = document.getElementById('select-equipo').value; if(!id || !equipo) return mostrarToast("Faltan datos.", "error"); const j = jugadores.find(j => j.id === id); j.picks = [...(j.picks || []), equipo]; set(ref(db, `survivor/jugadores/${id}`), j); mostrarToast("Pick forzado asignado.", "success"); };
 
 window.agregarVida = () => {
     const id = document.getElementById('select-jugador-vidas').value;
@@ -600,24 +718,24 @@ window.reiniciarLiga = () => {
     }
 };
 
-// ==========================================
-// NUEVAS FUNCIONES: GUARDAR GOLES EN VIVO SIMULADOS
-// ==========================================
 window.guardarMarcadorVivo = () => {
     const key = document.getElementById('select-partido-activo').value;
     const golL = document.getElementById('goles-local-vivo').value;
     const golV = document.getElementById('goles-visitante-vivo').value;
+    const estado = document.getElementById('estado-partido-vivo').value; 
     
     if (!key) return mostrarToast("Selecciona un partido primero.", "error");
     if (golL === "" || golV === "") return mostrarToast("Ingresa los goles de ambos equipos.", "error");
     
     set(ref(db, `survivor/marcadores/${key}`), {
         golesLocal: parseInt(golL),
-        golesVisitante: parseInt(golV)
+        golesVisitante: parseInt(golV),
+        estado: estado 
     }).then(() => {
-        mostrarToast("Marcador actualizado en vivo en la arena.", "success");
+        mostrarToast("Marcador y estado actualizados en vivo.", "success");
         document.getElementById('goles-local-vivo').value = '';
         document.getElementById('goles-visitante-vivo').value = '';
+        document.getElementById('estado-partido-vivo').value = 'auto'; 
     });
 };
 
@@ -668,7 +786,6 @@ document.addEventListener('keydown', (event) => {
     }
 });
 
-// Cierre de modales al hacer clic en el fondo oscuro
 window.cerrarModalesConClick = () => {
     if (typeof cerrarModalPerfil === 'function') cerrarModalPerfil();
     if (typeof cerrarModalReglas === 'function') cerrarModalReglas();
@@ -702,18 +819,28 @@ window.cargarResultadosEnVivo = async () => {
             let statusLabel = '';
             let defaultGoles = '-';
             
-            if (horaActual < horaPartido) {
-                statusLabel = `<span style="color:#ff9800;">⏱️ Hoy a las ${p.hora}</span>`;
-                defaultGoles = '-'; 
-            } else if (horaActual === horaPartido || horaActual === horaPartido + 1) {
+            let estadoManual = marcadorGuardado ? marcadorGuardado.estado : 'auto';
+            if (!estadoManual) estadoManual = 'auto';
+
+            if (estadoManual === 'vivo') {
                 statusLabel = `<span style="color:#deff9a; font-weight:bold;"><img src="assets/live.svg" class="svg-icon" style="width:14px; margin-right:4px;"> En Juego</span>`;
-                defaultGoles = '0'; 
-            } else {
+                defaultGoles = '0';
+            } else if (estadoManual === 'finalizado') {
                 statusLabel = `<span style="color:var(--text-muted);">Finalizado</span>`;
-                defaultGoles = '0'; 
+                defaultGoles = '0';
+            } else {
+                if (horaActual < horaPartido) {
+                    statusLabel = `<span style="color:#ff9800;">⏱️ Hoy a las ${p.hora}</span>`;
+                    defaultGoles = '-'; 
+                } else if (horaActual === horaPartido || horaActual === horaPartido + 1) {
+                    statusLabel = `<span style="color:#deff9a; font-weight:bold;"><img src="assets/live.svg" class="svg-icon" style="width:14px; margin-right:4px;"> En Juego</span>`;
+                    defaultGoles = '0'; 
+                } else {
+                    statusLabel = `<span style="color:var(--text-muted);">Finalizado</span>`;
+                    defaultGoles = '0'; 
+                }
             }
             
-            // Si tú ya metiste goles en Firebase se usan esos, si no, usa el default inteligente (0 o -)
             const golesLocal = (marcadorGuardado && marcadorGuardado.golesLocal !== undefined) ? marcadorGuardado.golesLocal : defaultGoles;
             const golesVisitante = (marcadorGuardado && marcadorGuardado.golesVisitante !== undefined) ? marcadorGuardado.golesVisitante : defaultGoles;
 

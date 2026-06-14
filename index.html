@@ -81,6 +81,14 @@
         <div id="lista-calendario" class="lista-calendario"></div>
     </div>
 
+    <div class="modal-popup-smooth" id="survivor-news-container" style="display: none; background: var(--card-bg); border: 1px solid var(--accent-color); padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); animation: popIn 0.5s ease;">
+        <h3 style="color: #ff9800; margin-top: 0; text-align: center; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; font-size: 20px;">
+            🚨🚨 Survivor News 🚨🚨
+        </h3>
+        <div id="survivor-news-content" style="color: var(--text-color); font-size: 14px; line-height: 1.6;">
+            </div>
+    </div>
+
     <div class="hall-of-fame-container modal-popup-smooth" id="hall-of-fame-container" style="display: none;">
         <h3 style="color: gold; margin-top:0; text-align: center; border-bottom: 1px solid var(--border-color); padding-bottom: 10px;"><img src="assets/medallas.svg" class="svg-icon"> Salón de la Fama (Top 3)</h3>
         <div class="podium" id="podium-content"></div>
@@ -238,6 +246,13 @@
                 <div style="display: flex; gap: 10px; margin-bottom: 10px;">
                     <input type="number" id="goles-local-vivo" placeholder="Goles Local" style="flex: 1;">
                     <input type="number" id="goles-visitante-vivo" placeholder="Goles Visitante" style="flex: 1;">
+                </div>
+                <div style="display: flex; gap: 10px; margin-bottom: 10px;">
+                    <select id="estado-partido-vivo" style="width: 100%; background: var(--input-bg); color: var(--text-color); border: 1px solid var(--border-color); border-radius: 4px; padding: 8px;">
+                        <option value="auto">⏱️ Estado Automático (Depende de la hora)</option>
+                        <option value="vivo">🔴 Forzar "En Juego"</option>
+                        <option value="finalizado">✅ Forzar "Finalizado"</option>
+                    </select>
                 </div>
                 <button class="btn-interactivo" style="background: var(--accent-color); color: #121212; width: 100%; font-weight: bold;" onclick="guardarMarcadorVivo()">Actualizar Marcador Vivo 🎯</button>
             </div>
