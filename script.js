@@ -36,7 +36,7 @@ window.mostrarToast = (mensaje, tipo = "success") => {
 // ==========================================
 window.cargarResultadosEnVivo = async () => {
     const apiKey = '035d212fdbad14cc398005179057f350'; 
-    const url = 'https://v3.football.api-sports.io/fixtures?live=all'; 
+   const url = 'https://v3.football.api-sports.io/fixtures?live=all&league=1&season=2026';
     const list = document.getElementById('live-scores-list');
     
     list.innerHTML = '<p style="text-align:center;">Conectando con API-Football...</p>';
