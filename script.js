@@ -219,7 +219,7 @@ function renderizarCalendario() {
 }
 
 // ==========================================
-// NUEVA FUNCIÓN: GENERADOR DE SURVIVOR NEWS
+// FUNCIÓN CORREGIDA: GENERADOR DE SURVIVOR NEWS
 // ==========================================
 function calcularYMostrarResumenJornada() {
     const container = document.getElementById('survivor-news-container');
@@ -267,8 +267,10 @@ function calcularYMostrarResumenJornada() {
                         const gc = (loc === pickAnterior) ? m.golesVisitante : m.golesLocal;
                         
                         if (gf <= gc) {
-                            totalVidasPerdidas++;
-                            if (!caidosList.includes(j.nombre)) caidosList.push(j.nombre);
+                            if (!caidosList.includes(j.nombre)) {
+                                caidosList.push(j.nombre);
+                                totalVidasPerdidas++;
+                            }
                         }
                         
                         if (gf > maxGolesFavor) {
@@ -295,6 +297,43 @@ function calcularYMostrarResumenJornada() {
             equipoMasVotado = eq;
         }
     });
+
+    // PARCHE DE LIMPIEZA: Quitamos cualquier prefijo de dos letras (como "es ") si existe
+    let equipoLimpioBuscador = equipoMasVotado;
+    if (equipoMasVotado.length > 3 && equipoMasVotado.charAt(2) === ' ') {
+        equipoLimpioBuscador = equipoMasVotado.substring(3);
+    }
+
+    let resultadoOvejaHTML = "aún está a la espera de resultados ⏳.";
+    if (equipoMasVotado !== "Ninguno") {
+        let ovejaGf = 0;
+        let ovejaGc = 0;
+        let encontroMarcador = false;
+        
+        Object.keys(marcadoresEnVivo).forEach(key => {
+            // Reemplazamos guiones y separamos por guion bajo para obtener los nombres limpios de Firebase
+            const equipos = key.replace(/-/g, ' ').split('_'); 
+            const loc = equipos[0] ? equipos[0].trim() : "";
+            const vis = equipos[1] ? equipos[1].trim() : "";
+            
+            if (loc === equipoLimpioBuscador || vis === equipoLimpioBuscador) {
+                const m = marcadoresEnVivo[key];
+                if (m && m.golesLocal !== undefined && m.golesVisitante !== undefined) {
+                    encontroMarcador = true;
+                    ovejaGf = (loc === equipoLimpioBuscador) ? m.golesLocal : m.golesVisitante;
+                    ovejaGc = (loc === equipoLimpioBuscador) ? m.golesVisitante : m.golesLocal;
+                }
+            }
+        });
+
+        if (encontroMarcador) {
+            if (ovejaGf > ovejaGc) {
+                resultadoOvejaHTML = `fue una decisión segura y sabia ✔️ (${ovejaGf}-${ovejaGc}).`;
+            } else {
+                resultadoOvejaHTML = `les salió carísimo porque empataron o perdieron 💀 (${ovejaGf}-${ovejaGc}).`;
+            }
+        }
+    }
 
     let htmlNews = `<p style="margin-top: 0; text-align:center; font-style: italic; color: var(--text-muted);">Crónica de la sangrienta Jornada ${jAnterior}</p>`;
     
@@ -330,7 +369,7 @@ function calcularYMostrarResumenJornada() {
     htmlNews += `</div>`;
 
     htmlNews += `<div style="background: rgba(255, 255, 255, 0.03); padding: 10px; border-radius: 8px; border-left: 3px solid #ff9800; font-size: 13px;">`;
-    htmlNews += `🐑 <strong style="color: #ff9800;">Efecto Oveja:</strong> El equipo más seleccionado por el grupo en la jornada pasada fue <span style="font-weight:bold; color: white;">${getFlag(equipoMasVotado)} ${equipoMasVotado}</span> con un total de <b>${maxVotos} votos</b>. Irse con la mayoría ${totalVidasPerdidas > maxVotos ? 'salió caro esta vez 💀' : 'fue una decisión segura y sabia ✔️'}.`;
+    htmlNews += `🐑 <strong style="color: #ff9800;">Efecto Oveja:</strong> El equipo más seleccionado por el grupo en la jornada pasada fue <span style="font-weight:bold; color: white;">${getFlag(equipoLimpioBuscador)} ${equipoLimpioBuscador}</span> con un total de <b>${maxVotos} votos</b>. Irse con la mayoría ${resultadoOvejaHTML}`;
     htmlNews += `</div>`;
 
     content.innerHTML = htmlNews;
