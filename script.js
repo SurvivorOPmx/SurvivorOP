@@ -185,8 +185,9 @@ onValue(ref(db, 'survivor/jugadores'), (snapshot) => { jugadores = snapshot.val(
 onValue(ref(db, 'survivor/marcadores'), (snapshot) => {
     marcadoresEnVivo = snapshot.val() ? snapshot.val() : {};
     if (typeof window.cargarResultadosEnVivo === 'function') window.cargarResultadosEnVivo();
+    // Agregamos esta línea mágica para que el periódico se actualice si los goles llegan tarde:
+    if (typeof calcularYMostrarResumenJornada === 'function') calcularYMostrarResumenJornada(); 
 });
-
 function renderizarCalendario() {
     const elInscritos = document.getElementById('num-inscritos');
     if (elInscritos) elInscritos.textContent = jugadores.length;
