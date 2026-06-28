@@ -58,8 +58,22 @@ const partidosMundial = [
     { j: 1, local: "México", visitante: "Sudáfrica", fecha: "11 de Junio", hora: "13:00" }, { j: 1, local: "Corea del Sur", visitante: "República Checa", fecha: "11 de Junio", hora: "20:00" }, { j: 1, local: "Canadá", visitante: "Bosnia y Herzegovina", fecha: "12 de Junio", hora: "13:00" }, { j: 1, local: "Estados Unidos", visitante: "Paraguay", fecha: "12 de Junio", hora: "19:00" }, { j: 1, local: "Qatar", visitante: "Suiza", fecha: "13 de Junio", hora: "13:00" }, { j: 1, local: "Brasil", visitante: "Marruecos", fecha: "13 de Junio", hora: "16:00" }, { j: 1, local: "Haití", visitante: "Escocia", fecha: "13 de Junio", hora: "19:00" }, { j: 1, local: "Australia", visitante: "Turquía", fecha: "13 de Junio", hora: "22:00" }, { j: 1, local: "Alemania", visitante: "Curazao", fecha: "14 de Junio", hora: "11:00" }, { j: 1, local: "Países Bajos", visitante: "Japón", fecha: "14 de Junio", hora: "14:00" }, { j: 1, local: "Costa de Marfil", visitante: "Ecuador", fecha: "14 de Junio", hora: "17:00" }, { j: 1, local: "Suecia", visitante: "Túnez", fecha: "14 de Junio", hora: "20:00" }, { j: 1, local: "España", visitante: "Cabo Verde", fecha: "15 de Junio", hora: "10:00" }, { j: 1, local: "Bélgica", visitante: "Egipto", fecha: "15 de Junio", hora: "13:00" }, { j: 1, local: "Arabia Saudita", visitante: "Uruguay", fecha: "15 de Junio", hora: "16:00" }, { j: 1, local: "Irán", visitante: "Nueva Zelanda", fecha: "15 de Junio", hora: "19:00" }, { j: 1, local: "Francia", visitante: "Senegal", fecha: "16 de Junio", hora: "13:00" }, { j: 1, local: "Irak", visitante: "Noruega", fecha: "16 de Junio", hora: "16:00" }, { j: 1, local: "Argentina", visitante: "Argelia", fecha: "16 de Junio", hora: "19:00" }, { j: 1, local: "Austria", visitante: "Jordania", fecha: "16 de Junio", hora: "22:00" }, { j: 1, local: "Portugal", visitante: "RD Congo", fecha: "17 de Junio", hora: "11:00" }, { j: 1, local: "Inglaterra", visitante: "Croacia", fecha: "17 de Junio", hora: "14:00" }, { j: 1, local: "Ghana", visitante: "Panamá", fecha: "17 de Junio", hora: "17:00" }, { j: 1, local: "Uzbekistán", visitante: "Colombia", fecha: "17 de Junio", hora: "20:00" },
     { j: 2, local: "República Checa", visitante: "Sudáfrica", fecha: "18 de Junio", hora: "10:00" }, { j: 2, local: "Suiza", visitante: "Bosnia y Herzegovina", fecha: "18 de Junio", hora: "13:00" }, { j: 2, local: "Canadá", visitante: "Qatar", fecha: "18 de Junio", hora: "16:00" }, { j: 2, local: "México", visitante: "Corea del Sur", fecha: "18 de Junio", hora: "19:00" }, { j: 2, local: "Estados Unidos", visitante: "Australia", fecha: "19 de Junio", hora: "13:00" }, { j: 2, local: "Escocia", visitante: "Marruecos", fecha: "19 de Junio", hora: "16:00" }, { j: 2, local: "Brasil", visitante: "Haití", fecha: "19 de Junio", hora: "18:30" }, { j: 2, local: "Turquía", visitante: "Paraguay", fecha: "19 de Junio", hora: "21:00" }, { j: 2, local: "Países Bajos", visitante: "Suecia", fecha: "20 de Junio", hora: "11:00" }, { j: 2, local: "Alemania", visitante: "Costa de Marfil", fecha: "20 de Junio", hora: "14:00" }, { j: 2, local: "Ecuador", visitante: "Curazao", fecha: "20 de Junio", hora: "18:00" }, { j: 2, local: "Túnez", visitante: "Japón", fecha: "20 de Junio", hora: "22:00" }, { j: 2, local: "España", visitante: "Arabia Saudita", fecha: "21 de Junio", hora: "10:00" }, { j: 2, local: "Bélgica", visitante: "Irán", fecha: "21 de Junio", hora: "13:00" }, { j: 2, local: "Uruguay", visitante: "Cabo Verde", fecha: "21 de Junio", hora: "16:00" }, { j: 2, local: "Nueva Zelanda", visitante: "Egipto", fecha: "21 de Junio", hora: "19:00" }, { j: 2, local: "Noruega", visitante: "Senegal", fecha: "22 de Junio", hora: "13:00" }, { j: 2, local: "Francia", visitante: "Irak", fecha: "22 de Junio", hora: "16:00" }, { j: 2, local: "Jordania", visitante: "Argelia", fecha: "22 de Junio", hora: "19:00" }, { j: 2, local: "Argentina", visitante: "Austria", fecha: "22 de Junio", hora: "22:00" }, { j: 2, local: "Colombia", visitante: "RD Congo", fecha: "23 de Junio", hora: "11:00" }, { j: 2, local: "Portugal", visitante: "Uzbekistán", fecha: "23 de Junio", hora: "14:00" }, { j: 2, local: "Panamá", visitante: "Croacia", fecha: "23 de Junio", hora: "17:00" }, { j: 2, local: "Inglaterra", visitante: "Ghana", fecha: "23 de Junio", hora: "20:00" },
     { j: 3, local: "República Checa", visitante: "México", fecha: "24 de Junio", hora: "19:00" }, { j: 3, local: "Sudáfrica", visitante: "Corea del Sur", fecha: "24 de Junio", hora: "19:00" }, { j: 3, local: "Suiza", visitante: "Canadá", fecha: "24 de Junio", hora: "13:00" }, { j: 3, local: "Bosnia y Herzegovina", visitante: "Qatar", fecha: "24 de Junio", hora: "13:00" }, { j: 3, local: "Brasil", visitante: "Escocia", fecha: "24 de Junio", hora: "18:00" }, { j: 3, local: "Marruecos", visitante: "Haití", fecha: "24 de Junio", hora: "18:00" }, { j: 3, local: "Turquía", visitante: "Estados Unidos", fecha: "25 de Junio", hora: "20:00" }, { j: 3, local: "Paraguay", visitante: "Australia", fecha: "25 de Junio", hora: "20:00" }, { j: 3, local: "Ecuador", visitante: "Alemania", fecha: "25 de Junio", hora: "14:00" }, { j: 3, local: "Curazao", visitante: "Costa de Marfil", fecha: "25 de Junio", hora: "14:00" }, { j: 3, local: "Japón", visitante: "Suecia", fecha: "25 de Junio", hora: "17:00" }, { j: 3, local: "Túnez", visitante: "Países Bajos", fecha: "25 de Junio", hora: "17:00" }, { j: 3, local: "Uruguay", visitante: "España", fecha: "26 de Junio", hora: "18:00" }, { j: 3, local: "Cabo Verde", visitante: "Arabia Saudita", fecha: "26 de Junio", hora: "18:00" }, { j: 3, local: "Egipto", visitante: "Irán", fecha: "26 de Junio", hora: "21:00" }, { j: 3, local: "Nueva Zelanda", visitante: "Bélgica", fecha: "26 de Junio", hora: "21:00" }, { j: 3, local: "Noruega", visitante: "Francia", fecha: "26 de Junio", hora: "13:00" }, { j: 3, local: "Senegal", visitante: "Irak", fecha: "26 de Junio", hora: "13:00" }, { j: 3, local: "Jordania", visitante: "Argentina", fecha: "27 de Junio", hora: "20:00" }, { j: 3, local: "Argelia", visitante: "Austria", fecha: "27 de Junio", hora: "20:00" }, { j: 3, local: "Colombia", visitante: "Portugal", fecha: "27 de Junio", hora: "17:30" }, { j: 3, local: "RD Congo", visitante: "Uzbekistán", fecha: "27 de Junio", hora: "17:30" }, { j: 3, local: "Panamá", visitante: "Inglaterra", fecha: "27 de Junio", hora: "15:00" }, { j: 3, local: "Croacia", visitante: "Ghana", fecha: "27 de Junio", hora: "15:00" },
-    { j: 4, local: "Ganador Grupo A", visitante: "Tercero C/D/E", fecha: "28 de Junio", hora: "14:00" }, { j: 4, local: "Ganador Grupo B", visitante: "Segundo Grupo C", fecha: "28 de Junio", hora: "18:00" }, { j: 4, local: "Ganador Grupo C", visitante: "Tercero A/F/G", fecha: "29 de Junio", hora: "13:00" }, { j: 4, local: "Segundo Grupo A", visitante: "Segundo Grupo B", fecha: "29 de Junio", hora: "17:00" }, { j: 4, local: "Ganador Grupo D", visitante: "Tercero B/I/J", fecha: "29 de Junio", hora: "21:00" }, { j: 4, local: "Ganador Grupo E", visitante: "Segundo Grupo D", fecha: "30 de Junio", hora: "14:00" }, { j: 4, local: "Ganador Grupo F", visitante: "Segundo Grupo E", fecha: "30 de Junio", hora: "18:00" }, { j: 4, local: "Segundo Grupo D", visitante: "Segundo Grupo F", fecha: "30 de Junio", hora: "21:00" }, { j: 4, local: "Ganador Grupo G", visitante: "Tercero E/H/K", fecha: "01 de Julio", hora: "13:00" }, { j: 4, local: "Ganador Grupo H", visitante: "Segundo Grupo G", fecha: "01 de Julio", hora: "17:00" }, { j: 4, local: "Ganador Grupo I", visitante: "Tercero D/G/L", fecha: "01 de Julio", hora: "21:00" }, { j: 4, local: "Ganador Grupo J", visitante: "Segundo Grupo I", fecha: "02 de Julio", hora: "14:00" }, { j: 4, local: "Ganador Grupo K", visitante: "Segundo Grupo J", fecha: "02 de Julio", hora: "18:00" }, { j: 4, local: "Segundo Grupo H", visitante: "Segundo Grupo K", fecha: "02 de Julio", hora: "21:00" }, { j: 4, local: "Ganador Grupo L", visitante: "Tercero F/H/I", fecha: "03 de Julio", hora: "15:00" }, { j: 4, local: "Segundo Grupo G", visitante: "Segundo Grupo L", fecha: "03 de Julio", hora: "19:00" },
-    { j: 5, local: "Ganador Llave 1", visitante: "Ganador Llave 2", fecha: "04 de Julio", hora: "14:00" }, { j: 5, local: "Ganador Llave 3", visitante: "Ganador Llave 4", fecha: "04 de Julio", hora: "19:00" }, { j: 5, local: "Ganador Llave 5", visitante: "Ganador Llave 6", fecha: "05 de Julio", hora: "13:00" }, { j: 5, local: "Ganador Llave 7", visitante: "Ganador Llave 8", fecha: "05 de Julio", hora: "18:00" }, { j: 5, local: "Ganador Llave 9", visitante: "Ganador Llave 10", fecha: "06 de Julio", hora: "14:00" }, { j: 5, local: "Ganador Llave 11", visitante: "Ganador Llave 12", fecha: "06 de Julio", hora: "19:00" }, { j: 5, local: "Ganador Llave 13", visitante: "Ganador Llave 14", fecha: "07 de Julio", hora: "15:00" }, { j: 5, local: "Ganador Llave 15", visitante: "Ganador Llave 16", fecha: "07 de Julio", hora: "20:00" },
+    { j: 4, local: "Ganador Grupo A", visitante: "Tercero C/D/E", fecha: "28 de Junio", hora: "14:00" }, { j: 4, local: "Sudáfrica", visitante: "Canadá", fecha: "28 de Junio", hora: "13:00" },
+    { j: 4, local: "Brasil", visitante: "Japón", fecha: "29 de Junio", hora: "11:00" },
+    { j: 4, local: "Alemania", visitante: "Paraguay", fecha: "29 de Junio", hora: "14:30" },
+    { j: 4, local: "Países Bajos", visitante: "Marruecos", fecha: "29 de Junio", hora: "19:00" },
+    { j: 4, local: "Costa de Marfil", visitante: "Noruega", fecha: "30 de Junio", hora: "11:00" },
+    { j: 4, local: "Francia", visitante: "Suecia", fecha: "30 de Junio", hora: "15:00" },
+    { j: 4, local: "México", visitante: "Ecuador", fecha: "30 de Junio", hora: "19:00" },
+    { j: 4, local: "Inglaterra", visitante: "RD Congo", fecha: "01 de Julio", hora: "10:00" },
+    { j: 4, local: "Bélgica", visitante: "Senegal", fecha: "01 de Julio", hora: "14:00" },
+    { j: 4, local: "Estados Unidos", visitante: "Bosnia y Herzegovina", fecha: "01 de Julio", hora: "18:00" },
+    { j: 4, local: "España", visitante: "Austria", fecha: "02 de Julio", hora: "13:00" },
+    { j: 4, local: "Portugal", visitante: "Croacia", fecha: "02 de Julio", hora: "17:00" },
+    { j: 4, local: "Suiza", visitante: "Argelia", fecha: "02 de Julio", hora: "21:00" },
+    { j: 4, local: "Australia", visitante: "Egipto", fecha: "03 de Julio", hora: "12:00" },
+    { j: 4, local: "Argentina", visitante: "Cabo Verde", fecha: "03 de Julio", hora: "16:00" },
+    { j: 4, local: "Colombia", visitante: "Ghana", fecha: "03 de Julio", hora: "19:30" }, { j: 5, local: "Ganador Llave 3", visitante: "Ganador Llave 4", fecha: "04 de Julio", hora: "19:00" }, { j: 5, local: "Ganador Llave 5", visitante: "Ganador Llave 6", fecha: "05 de Julio", hora: "13:00" }, { j: 5, local: "Ganador Llave 7", visitante: "Ganador Llave 8", fecha: "05 de Julio", hora: "18:00" }, { j: 5, local: "Ganador Llave 9", visitante: "Ganador Llave 10", fecha: "06 de Julio", hora: "14:00" }, { j: 5, local: "Ganador Llave 11", visitante: "Ganador Llave 12", fecha: "06 de Julio", hora: "19:00" }, { j: 5, local: "Ganador Llave 13", visitante: "Ganador Llave 14", fecha: "07 de Julio", hora: "15:00" }, { j: 5, local: "Ganador Llave 15", visitante: "Ganador Llave 16", fecha: "07 de Julio", hora: "20:00" },
     { j: 6, local: "Cuartofinalista 1", visitante: "Cuartofinalista 2", fecha: "09 de Julio", hora: "16:00" }, { j: 6, local: "Cuartofinalista 3", visitante: "Cuartofinalista 4", fecha: "10 de Julio", hora: "19:00" }, { j: 6, local: "Cuartofinalista 5", visitante: "Cuartofinalista 6", fecha: "11 de Julio", hora: "14:00" }, { j: 6, local: "Cuartofinalista 7", visitante: "Cuartofinalista 8", fecha: "11 de Julio", hora: "18:00" },
     { j: 7, local: "Semifinalista 1", visitante: "Semifinalista 2", fecha: "14 de Julio", hora: "20:00" }, { j: 7, local: "Semifinalista 3", visitante: "Semifinalista 4", fecha: "15 de Julio", hora: "20:00" },
     { j: 8, local: "Perdedor Semifinal 1", visitante: "Perdedor Semifinal 2", fecha: "18 de Julio", hora: "15:00" }, { j: 8, local: "Finalista 1", visitante: "Finalista 2", fecha: "19 de Julio", hora: "16:00" }
@@ -238,6 +252,9 @@ function calcularYMostrarResumenJornada() {
     container.style.display = 'block';
     const jAnterior = jornadaNum - 1;
     
+    // FILTRO MAESTRO: Solo traemos los partidos de la jornada EXACTA que acaba de terminar
+    const partidosJAnterior = partidosMundial.filter(p => p.j === jAnterior);
+    
     let totalVidasPerdidas = 0;
     let caidosList = [];
     let conteoPicks = {};
@@ -256,37 +273,37 @@ function calcularYMostrarResumenJornada() {
         if (pickAnterior) {
             conteoPicks[pickAnterior] = (conteoPicks[pickAnterior] || 0) + 1;
             
-            Object.keys(marcadoresEnVivo).forEach(key => {
-                const equipos = key.replace(/-/g, ' ').split('_'); 
-                const loc = equipos[0];
-                const vis = equipos[1];
-                
-                if (loc === pickAnterior || vis === pickAnterior) {
-                    const m = marcadoresEnVivo[key];
-                    if (m && m.golesLocal !== undefined && m.golesVisitante !== undefined) {
-                        const gf = (loc === pickAnterior) ? m.golesLocal : m.golesVisitante;
-                        const gc = (loc === pickAnterior) ? m.golesVisitante : m.golesLocal;
-                        
-                        if (gf <= gc) {
-                            if (!caidosList.includes(j.nombre)) {
-                                caidosList.push(j.nombre);
-                                totalVidasPerdidas++;
-                            }
-                        }
-                        
-                        if (gf > maxGolesFavor) {
-                            maxGolesFavor = gf;
-                            mvpNombre = j.nombre;
-                            maxGolesFavorEquipo = pickAnterior;
-                        }
-                        if (gc > maxGolesContra) {
-                            maxGolesContra = gc;
-                            pechoFrioNombre = j.nombre;
-                            maxGolesContraEquipo = pickAnterior;
+            // Buscamos cuál fue el partido exacto que jugó ese equipo en esa jornada
+            const partidoExacto = partidosJAnterior.find(p => p.local === pickAnterior || p.visitante === pickAnterior);
+            
+            if (partidoExacto) {
+                // Armamos la llave tal cual está en Firebase
+                const keyFirebase = `${partidoExacto.local}_${partidoExacto.visitante}`.replace(/\s+/g, '-');
+                const m = marcadoresEnVivo[keyFirebase];
+
+                if (m && m.golesLocal !== undefined && m.golesVisitante !== undefined) {
+                    const gf = (partidoExacto.local === pickAnterior) ? m.golesLocal : m.golesVisitante;
+                    const gc = (partidoExacto.local === pickAnterior) ? m.golesVisitante : m.golesLocal;
+                    
+                    if (gf <= gc) {
+                        if (!caidosList.includes(j.nombre)) {
+                            caidosList.push(j.nombre);
+                            totalVidasPerdidas++;
                         }
                     }
+                    
+                    if (gf > maxGolesFavor) {
+                        maxGolesFavor = gf;
+                        mvpNombre = j.nombre;
+                        maxGolesFavorEquipo = pickAnterior;
+                    }
+                    if (gc > maxGolesContra) {
+                        maxGolesContra = gc;
+                        pechoFrioNombre = j.nombre;
+                        maxGolesContraEquipo = pickAnterior;
+                    }
                 }
-            });
+            }
         }
     });
 
@@ -299,39 +316,24 @@ function calcularYMostrarResumenJornada() {
         }
     });
 
-    // PARCHE DE LIMPIEZA: Quitamos cualquier prefijo de dos letras (como "es ") si existe
-    let equipoLimpioBuscador = equipoMasVotado;
-    if (equipoMasVotado.length > 3 && equipoMasVotado.charAt(2) === ' ') {
-        equipoLimpioBuscador = equipoMasVotado.substring(3);
-    }
-
+    // Lógica para el Efecto Oveja leyendo el partido exacto
     let resultadoOvejaHTML = "aún está a la espera de resultados ⏳.";
     if (equipoMasVotado !== "Ninguno") {
-        let ovejaGf = 0;
-        let ovejaGc = 0;
-        let encontroMarcador = false;
+        const partidoOveja = partidosJAnterior.find(p => p.local === equipoMasVotado || p.visitante === equipoMasVotado);
         
-        Object.keys(marcadoresEnVivo).forEach(key => {
-            // Reemplazamos guiones y separamos por guion bajo para obtener los nombres limpios de Firebase
-            const equipos = key.replace(/-/g, ' ').split('_'); 
-            const loc = equipos[0] ? equipos[0].trim() : "";
-            const vis = equipos[1] ? equipos[1].trim() : "";
+        if (partidoOveja) {
+            const keyFirebaseOveja = `${partidoOveja.local}_${partidoOveja.visitante}`.replace(/\s+/g, '-');
+            const mOveja = marcadoresEnVivo[keyFirebaseOveja];
             
-            if (loc === equipoLimpioBuscador || vis === equipoLimpioBuscador) {
-                const m = marcadoresEnVivo[key];
-                if (m && m.golesLocal !== undefined && m.golesVisitante !== undefined) {
-                    encontroMarcador = true;
-                    ovejaGf = (loc === equipoLimpioBuscador) ? m.golesLocal : m.golesVisitante;
-                    ovejaGc = (loc === equipoLimpioBuscador) ? m.golesVisitante : m.golesLocal;
-                }
-            }
-        });
+            if (mOveja && mOveja.golesLocal !== undefined && mOveja.golesVisitante !== undefined) {
+                const ovejaGf = (partidoOveja.local === equipoMasVotado) ? mOveja.golesLocal : mOveja.golesVisitante;
+                const ovejaGc = (partidoOveja.local === equipoMasVotado) ? mOveja.golesVisitante : mOveja.golesLocal;
 
-        if (encontroMarcador) {
-            if (ovejaGf > ovejaGc) {
-                resultadoOvejaHTML = `fue una decisión segura y sabia ✔️ (${ovejaGf}-${ovejaGc}).`;
-            } else {
-                resultadoOvejaHTML = `les salió carísimo porque empataron o perdieron 💀 (${ovejaGf}-${ovejaGc}).`;
+                if (ovejaGf > ovejaGc) {
+                    resultadoOvejaHTML = `fue una decisión segura y sabia ✔️ (${ovejaGf}-${ovejaGc}).`;
+                } else {
+                    resultadoOvejaHTML = `les salió carísimo porque empataron o perdieron 💀 (${ovejaGf}-${ovejaGc}).`;
+                }
             }
         }
     }
@@ -341,7 +343,7 @@ function calcularYMostrarResumenJornada() {
     htmlNews += `<div style="background: rgba(255,255,255,0.03); padding: 12px; border-radius: 8px; margin-bottom: 12px; border-left: 3px solid #d32f2f;">`;
     htmlNews += `<strong style="color: #ff5252; font-size: 14px;">📉 Reporte de Bajas:</strong><br>`;
     if (caidosList.length > 0) {
-        htmlNews += `La jornada pasada se cobró un total de <b style="color:white;">${totalVidasPerdidas} vidas</b>. Los sobrevivientes que tropezaron y sufrieron heridas en la arena fueron: <span style="color:#deff9a; font-weight:bold;">${caidosList.join(', ')}</span>. ¡A cuidar las vidas que se agotan!`;
+        htmlNews += `La Jornada ${jAnterior} se cobró un total de <b style="color:white;">${totalVidasPerdidas} vidas</b>. Los sobrevivientes que tropezaron y sufrieron heridas en la arena fueron: <span style="color:#deff9a; font-weight:bold;">${caidosList.join(', ')}</span>. ¡A cuidar las vidas que se agotan!`;
     } else {
         htmlNews += `¡Increíble! Una jornada pacífica en la arena OP. Nadie perdió vidas en la ronda anterior. Todos leyeron el juego a la perfección.`;
     }
@@ -370,7 +372,7 @@ function calcularYMostrarResumenJornada() {
     htmlNews += `</div>`;
 
     htmlNews += `<div style="background: rgba(255, 255, 255, 0.03); padding: 10px; border-radius: 8px; border-left: 3px solid #ff9800; font-size: 13px;">`;
-    htmlNews += `🐑 <strong style="color: #ff9800;">Efecto Oveja:</strong> El equipo más seleccionado por el grupo en la jornada pasada fue <span style="font-weight:bold; color: white;">${getFlag(equipoLimpioBuscador)} ${equipoLimpioBuscador}</span> con un total de <b>${maxVotos} votos</b>. Irse con la mayoría ${resultadoOvejaHTML}`;
+    htmlNews += `🐑 <strong style="color: #ff9800;">Efecto Oveja:</strong> El equipo más seleccionado por el grupo en la jornada pasada fue <span style="font-weight:bold; color: white;">${getFlag(equipoMasVotado)} ${equipoMasVotado}</span> con un total de <b>${maxVotos} votos</b>. Irse con la mayoría ${resultadoOvejaHTML}`;
     htmlNews += `</div>`;
 
     content.innerHTML = htmlNews;
