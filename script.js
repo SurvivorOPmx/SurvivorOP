@@ -74,7 +74,10 @@ const partidosMundial = [
     { j: 4, local: "Australia", visitante: "Egipto", fecha: "03 de Julio", hora: "12:00" },
     { j: 4, local: "Argentina", visitante: "Cabo Verde", fecha: "03 de Julio", hora: "16:00" },
     { j: 4, local: "Colombia", visitante: "Ghana", fecha: "03 de Julio", hora: "19:30" }, { j: 5, local: "Ganador Llave 3", visitante: "Ganador Llave 4", fecha: "04 de Julio", hora: "19:00" }, { j: 5, local: "Ganador Llave 5", visitante: "Ganador Llave 6", fecha: "05 de Julio", hora: "13:00" }, { j: 5, local: "Ganador Llave 7", visitante: "Ganador Llave 8", fecha: "05 de Julio", hora: "18:00" }, { j: 5, local: "Ganador Llave 9", visitante: "Ganador Llave 10", fecha: "06 de Julio", hora: "14:00" }, { j: 5, local: "Ganador Llave 11", visitante: "Ganador Llave 12", fecha: "06 de Julio", hora: "19:00" }, { j: 5, local: "Ganador Llave 13", visitante: "Ganador Llave 14", fecha: "07 de Julio", hora: "15:00" }, { j: 5, local: "Ganador Llave 15", visitante: "Ganador Llave 16", fecha: "07 de Julio", hora: "20:00" },
-    { j: 6, local: "Cuartofinalista 1", visitante: "Cuartofinalista 2", fecha: "09 de Julio", hora: "16:00" }, { j: 6, local: "Cuartofinalista 3", visitante: "Cuartofinalista 4", fecha: "10 de Julio", hora: "19:00" }, { j: 6, local: "Cuartofinalista 5", visitante: "Cuartofinalista 6", fecha: "11 de Julio", hora: "14:00" }, { j: 6, local: "Cuartofinalista 7", visitante: "Cuartofinalista 8", fecha: "11 de Julio", hora: "18:00" },
+    { j: 6, local: "Francia", visitante: "Marruecos", fecha: "09 de Julio", hora: "14:00" },
+    { j: 6, local: "España", visitante: "Bélgica", fecha: "10 de Julio", hora: "13:00" },
+    { j: 6, local: "Noruega", visitante: "Inglaterra", fecha: "11 de Julio", hora: "15:00" },
+    { j: 6, local: "Argentina", visitante: "Suiza", fecha: "11 de Julio", hora: "19:00" },
     { j: 7, local: "Semifinalista 1", visitante: "Semifinalista 2", fecha: "14 de Julio", hora: "20:00" }, { j: 7, local: "Semifinalista 3", visitante: "Semifinalista 4", fecha: "15 de Julio", hora: "20:00" },
     { j: 8, local: "Perdedor Semifinal 1", visitante: "Perdedor Semifinal 2", fecha: "18 de Julio", hora: "15:00" }, { j: 8, local: "Finalista 1", visitante: "Finalista 2", fecha: "19 de Julio", hora: "16:00" }
 ];
@@ -845,7 +848,11 @@ window.cargarResultadosEnVivo = async () => {
     
     const meses = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
     const fechaHoy = new Date();
-    const textoHoy = `${fechaHoy.getDate()} de ${meses[fechaHoy.getMonth()]}`;
+    
+    // EL PARCHE: Obligamos a que los días tengan siempre 2 dígitos (ej. "07" en lugar de "7")
+    const diaFormateado = String(fechaHoy.getDate()).padStart(2, '0');
+    const textoHoy = `${diaFormateado} de ${meses[fechaHoy.getMonth()]}`;
+    
     const partidosDeHoy = partidosMundial.filter(p => p.fecha === textoHoy);
 
     list.innerHTML = ''; 
