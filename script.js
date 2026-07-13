@@ -85,7 +85,10 @@ const partidosMundial = [
     { j: 6, local: "España", visitante: "Bélgica", fecha: "10 de Julio", hora: "13:00" },
     { j: 6, local: "Noruega", visitante: "Inglaterra", fecha: "11 de Julio", hora: "15:00" },
     { j: 6, local: "Argentina", visitante: "Suiza", fecha: "11 de Julio", hora: "19:00" },
-    { j: 7, local: "Semifinalista 1", visitante: "Semifinalista 2", fecha: "14 de Julio", hora: "20:00" }, { j: 7, local: "Semifinalista 3", visitante: "Semifinalista 4", fecha: "15 de Julio", hora: "20:00" },
+   // ... AQUÍ TERMINA TU JORNADA 6 ...
+    { j: 7, local: "Francia", visitante: "España", fecha: "14 de Julio", hora: "13:00" },
+    { j: 7, local: "Inglaterra", visitante: "Argentina", fecha: "15 de Julio", hora: "13:00" },
+    // ... AQUÍ EMPIEZA TU JORNADA 8 ...
     { j: 8, local: "Perdedor Semifinal 1", visitante: "Perdedor Semifinal 2", fecha: "18 de Julio", hora: "15:00" }, { j: 8, local: "Finalista 1", visitante: "Finalista 2", fecha: "19 de Julio", hora: "16:00" }
 ];
 
