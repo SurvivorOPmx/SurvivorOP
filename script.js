@@ -52,8 +52,17 @@ const banderas = {
 const getFlag = (team) => banderas[team] || "🏳️";
 const equiposMundial = Object.keys(banderas).sort((a, b) => a.localeCompare(b, 'es'));
 
-const calendarioMundial = [ { j: 1, nombre: "J1: Grupos", fechas: "11 Jun - 17 Jun 2026" }, { j: 2, nombre: "J2: Grupos", fechas: "18 Jun - 23 Jun 2026" }, { j: 3, nombre: "J3: Grupos", fechas: "24 Jun - 27 Jun 2026" }, { j: 4, nombre: "J4: 16vos de Final", fechas: "28 Jun - 03 Jul 2026" }, { j: 5, nombre: "J5: Octavos de Final", fechas: "04 Jul - 07 Jul 2026" }, { j: 6, nombre: "J6: Cuartos de Final", fechas: "09 Jul - 11 Jul 2026" }, { j: 7, nombre: "J7: Semifinales", fechas: "14 Jul - 15 Jul 2026" }, { j: 8, nombre: "J8: Gran Final / 3er", fechas: "18 Jul - 19 Jul 2026" } ];
-
+const calendarioMundial = [ 
+    { j: 1, nombre: "J1: Grupos", fechas: "11 Jun - 17 Jun 2026" }, 
+    { j: 2, nombre: "J2: Grupos", fechas: "18 Jun - 23 Jun 2026" }, 
+    { j: 3, nombre: "J3: Grupos", fechas: "24 Jun - 27 Jun 2026" }, 
+    { j: 4, nombre: "J4: 16vos de Final", fechas: "28 Jun - 03 Jul 2026" }, 
+    { j: 5, nombre: "J5: Octavos de Final", fechas: "04 Jul - 07 Jul 2026" }, 
+    { j: 6, nombre: "J6: Cuartos de Final", fechas: "09 Jul - 11 Jul 2026" }, 
+    { j: 7, nombre: "J7: Semifinales", fechas: "14 Jul - 15 Jul 2026" }, 
+    { j: 8, nombre: "J8: Tercer Lugar", fechas: "18 de Julio 2026" }, 
+    { j: 9, nombre: "J9: Gran Final", fechas: "19 de Julio 2026" } 
+];
 const partidosMundial = [
     { j: 1, local: "México", visitante: "Sudáfrica", fecha: "11 de Junio", hora: "13:00" }, { j: 1, local: "Corea del Sur", visitante: "República Checa", fecha: "11 de Junio", hora: "20:00" }, { j: 1, local: "Canadá", visitante: "Bosnia y Herzegovina", fecha: "12 de Junio", hora: "13:00" }, { j: 1, local: "Estados Unidos", visitante: "Paraguay", fecha: "12 de Junio", hora: "19:00" }, { j: 1, local: "Qatar", visitante: "Suiza", fecha: "13 de Junio", hora: "13:00" }, { j: 1, local: "Brasil", visitante: "Marruecos", fecha: "13 de Junio", hora: "16:00" }, { j: 1, local: "Haití", visitante: "Escocia", fecha: "13 de Junio", hora: "19:00" }, { j: 1, local: "Australia", visitante: "Turquía", fecha: "13 de Junio", hora: "22:00" }, { j: 1, local: "Alemania", visitante: "Curazao", fecha: "14 de Junio", hora: "11:00" }, { j: 1, local: "Países Bajos", visitante: "Japón", fecha: "14 de Junio", hora: "14:00" }, { j: 1, local: "Costa de Marfil", visitante: "Ecuador", fecha: "14 de Junio", hora: "17:00" }, { j: 1, local: "Suecia", visitante: "Túnez", fecha: "14 de Junio", hora: "20:00" }, { j: 1, local: "España", visitante: "Cabo Verde", fecha: "15 de Junio", hora: "10:00" }, { j: 1, local: "Bélgica", visitante: "Egipto", fecha: "15 de Junio", hora: "13:00" }, { j: 1, local: "Arabia Saudita", visitante: "Uruguay", fecha: "15 de Junio", hora: "16:00" }, { j: 1, local: "Irán", visitante: "Nueva Zelanda", fecha: "15 de Junio", hora: "19:00" }, { j: 1, local: "Francia", visitante: "Senegal", fecha: "16 de Junio", hora: "13:00" }, { j: 1, local: "Irak", visitante: "Noruega", fecha: "16 de Junio", hora: "16:00" }, { j: 1, local: "Argentina", visitante: "Argelia", fecha: "16 de Junio", hora: "19:00" }, { j: 1, local: "Austria", visitante: "Jordania", fecha: "16 de Junio", hora: "22:00" }, { j: 1, local: "Portugal", visitante: "RD Congo", fecha: "17 de Junio", hora: "11:00" }, { j: 1, local: "Inglaterra", visitante: "Croacia", fecha: "17 de Junio", hora: "14:00" }, { j: 1, local: "Ghana", visitante: "Panamá", fecha: "17 de Junio", hora: "17:00" }, { j: 1, local: "Uzbekistán", visitante: "Colombia", fecha: "17 de Junio", hora: "20:00" },
     { j: 2, local: "República Checa", visitante: "Sudáfrica", fecha: "18 de Junio", hora: "10:00" }, { j: 2, local: "Suiza", visitante: "Bosnia y Herzegovina", fecha: "18 de Junio", hora: "13:00" }, { j: 2, local: "Canadá", visitante: "Qatar", fecha: "18 de Junio", hora: "16:00" }, { j: 2, local: "México", visitante: "Corea del Sur", fecha: "18 de Junio", hora: "19:00" }, { j: 2, local: "Estados Unidos", visitante: "Australia", fecha: "19 de Junio", hora: "13:00" }, { j: 2, local: "Escocia", visitante: "Marruecos", fecha: "19 de Junio", hora: "16:00" }, { j: 2, local: "Brasil", visitante: "Haití", fecha: "19 de Junio", hora: "18:30" }, { j: 2, local: "Turquía", visitante: "Paraguay", fecha: "19 de Junio", hora: "21:00" }, { j: 2, local: "Países Bajos", visitante: "Suecia", fecha: "20 de Junio", hora: "11:00" }, { j: 2, local: "Alemania", visitante: "Costa de Marfil", fecha: "20 de Junio", hora: "14:00" }, { j: 2, local: "Ecuador", visitante: "Curazao", fecha: "20 de Junio", hora: "18:00" }, { j: 2, local: "Túnez", visitante: "Japón", fecha: "20 de Junio", hora: "22:00" }, { j: 2, local: "España", visitante: "Arabia Saudita", fecha: "21 de Junio", hora: "10:00" }, { j: 2, local: "Bélgica", visitante: "Irán", fecha: "21 de Junio", hora: "13:00" }, { j: 2, local: "Uruguay", visitante: "Cabo Verde", fecha: "21 de Junio", hora: "16:00" }, { j: 2, local: "Nueva Zelanda", visitante: "Egipto", fecha: "21 de Junio", hora: "19:00" }, { j: 2, local: "Noruega", visitante: "Senegal", fecha: "22 de Junio", hora: "13:00" }, { j: 2, local: "Francia", visitante: "Irak", fecha: "22 de Junio", hora: "16:00" }, { j: 2, local: "Jordania", visitante: "Argelia", fecha: "22 de Junio", hora: "19:00" }, { j: 2, local: "Argentina", visitante: "Austria", fecha: "22 de Junio", hora: "22:00" }, { j: 2, local: "Colombia", visitante: "RD Congo", fecha: "23 de Junio", hora: "11:00" }, { j: 2, local: "Portugal", visitante: "Uzbekistán", fecha: "23 de Junio", hora: "14:00" }, { j: 2, local: "Panamá", visitante: "Croacia", fecha: "23 de Junio", hora: "17:00" }, { j: 2, local: "Inglaterra", visitante: "Ghana", fecha: "23 de Junio", hora: "20:00" },
@@ -88,8 +97,9 @@ const partidosMundial = [
    // ... AQUÍ TERMINA TU JORNADA 6 ...
     { j: 7, local: "Francia", visitante: "España", fecha: "14 de Julio", hora: "13:00" },
     { j: 7, local: "Inglaterra", visitante: "Argentina", fecha: "15 de Julio", hora: "13:00" },
-    // ... AQUÍ EMPIEZA TU JORNADA 8 ...
-    { j: 8, local: "Perdedor Semifinal 1", visitante: "Perdedor Semifinal 2", fecha: "18 de Julio", hora: "15:00" }, { j: 8, local: "Finalista 1", visitante: "Finalista 2", fecha: "19 de Julio", hora: "16:00" }
+    // ... AQUÍ TERMINA TU JORNADA 7 ...
+    { j: 8, local: "Francia", visitante: "Inglaterra", fecha: "18 de Julio", hora: "15:00" },
+    { j: 9, local: "España", visitante: "Argentina", fecha: "19 de Julio", hora: "13:00" }
 ];
 
 let jugadores = [];
@@ -106,6 +116,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const themeIcon = document.getElementById('theme-toggle-icon');
     if (themeIcon) {
         themeIcon.src = document.body.classList.contains('dark-theme') ? 'assets/light.svg' : 'assets/dark.svg';
+    }
+});
+document.addEventListener("DOMContentLoaded", () => {
+    // ... tu código de tema oscuro y menús que ya tienes ...
+
+    // NUEVO: Quitar el Splash Screen después de cargar
+    const splash = document.getElementById('splash-screen');
+    if (splash) {
+        setTimeout(() => {
+            splash.classList.add('splash-hidden');
+        }, 1500); // 1500 = 1.5 segundos. Súbele o bájale el tiempo a tu gusto.
     }
 });
 
@@ -731,8 +752,15 @@ window.guardarEquiposClasificados = () => {
     filtroFijo = false; 
 };
 
-window.cambiarJornada = (suma) => { let nuevaJornada = appConfig.jornadaActual + suma; if (nuevaJornada < 1) nuevaJornada = 1; if (nuevaJornada > 8) nuevaJornada = 8; set(ref(db, 'survivor/config/jornadaActual'), nuevaJornada); mostrarToast(`Jornada cambiada a ${nuevaJornada}`, "success"); };
-window.cambiarFase = (fase) => { set(ref(db, 'survivor/config/fase'), fase); mostrarToast(`Fase actualizada.`, "success"); };
+window.cambiarJornada = (suma) => { 
+    let nuevaJornada = appConfig.jornadaActual + suma; 
+    if (nuevaJornada < 1) nuevaJornada = 1; 
+    // Cambiamos el límite de 8 a 9
+    if (nuevaJornada > 9) nuevaJornada = 9; 
+    
+    set(ref(db, 'survivor/config/jornadaActual'), nuevaJornada); 
+    mostrarToast(`Jornada cambiada a ${nuevaJornada}`, "success"); 
+};window.cambiarFase = (fase) => { set(ref(db, 'survivor/config/fase'), fase); mostrarToast(`Fase actualizada.`, "success"); };
 window.agregarJugadorManual = () => { const nombre = document.getElementById('nuevo-jugador-nombre').value; if (!nombre) return mostrarToast("Ingresa un nombre.", "error"); const id = "manual_" + Date.now(); set(ref(db, `survivor/jugadores/${id}`), { id, nombre, equipo: "Invitado", foto: "https://via.placeholder.com/50", vivo: true, vidas: 3, ganados: 0, empatados: 0, perdidos: 0, gf: 0, gc: 0, difGoles: 0, picks: [] }); document.getElementById('nuevo-jugador-nombre').value = ''; mostrarToast("Usuario manual creado.", "success"); };
 window.eliminarUsuario = () => { const id = document.getElementById('select-jugador-eliminar').value; if(!id) return mostrarToast("Selecciona usuario.", "error"); if(confirm("¿Eliminar usuario?")) { remove(ref(db, `survivor/jugadores/${id}`)); mostrarToast("Usuario eliminado.", "warning"); } };
 

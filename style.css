@@ -411,3 +411,38 @@ input:checked + .slider:before {
     #contador-inscritos { width: 90% !important; font-size: 13px !important; }
     #news-ticker { font-size: 12px !important; padding: 8px !important; }
 }
+/* ==========================================
+   SPLASH SCREEN
+   ========================================== */
+#splash-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--bg-color); /* Usa el fondo oscuro de tu tema */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Esto asegura que esté por encima de TODO */
+    transition: opacity 0.8s ease-out, visibility 0.8s;
+}
+
+#splash-screen img {
+    max-width: 80%; /* Para que no se vea gigante en celulares */
+    max-height: 80%;
+    animation: pulseSplash 2s infinite; /* Un efecto chido para que palpite */
+}
+
+/* Efecto de latido para la imagen de carga */
+@keyframes pulseSplash {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Esta clase la pondremos con JavaScript para ocultarlo */
+.splash-hidden {
+    opacity: 0;
+    visibility: hidden;
+}
